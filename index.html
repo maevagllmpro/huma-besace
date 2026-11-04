@@ -1,0 +1,1496 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="light dark"><style>body{margin:0;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+<title>La Besace Pédagogique</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+</head><body>
+<style>
+/* Layout: une colonne de la largeur d'un téléphone (en-tête, écran qui défile, barre d'onglets). La carte est le seul élément qui porte la couleur : rose pour le format Flash, indigo pour la séquence de fond. */
+:root {
+  --bg: #F6EEE3;
+  --surface: #FFFBF5;
+  --ink: #3B2A20;
+  --ink-2: #6B574B;
+  --gray: #7A6A60;
+  --gray-2: #A89A90;
+  --line: #E4D5C6;
+  --accent: #8C5B3E;
+  --accent-ink: #FFFFFF;
+  --flash-bg: #EBD8CC;
+  --flash-fg: #6E4128;
+  --flash-solid: #8C5B3E;
+  --fond-bg: #DCE8EE;
+  --fond-fg: #3A6173;
+  --fond-solid: #4F7686;
+  --glass: rgba(255, 251, 245, 0.6);
+  --on-solid: #FFFFFF;
+  --shadow: rgba(70, 40, 25, 0.3);
+  --scrim: rgba(40, 25, 15, 0.5);
+  --display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --body: 'Plus Jakarta Sans', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1511;
+    --surface: #2A201A;
+    --ink: #F3E9DD;
+    --ink-2: #CDBBAA;
+    --gray: #A8978A;
+    --gray-2: #7E6F64;
+    --line: #43362D;
+    --accent: #D9A27E;
+    --accent-ink: #2A1608;
+    --flash-bg: #3E2B20;
+    --flash-fg: #E8C4A8;
+    --flash-solid: #D9A27E;
+    --fond-bg: #243640;
+    --fond-fg: #BBD6E3;
+    --fond-solid: #8DB5C7;
+    --glass: rgba(255, 255, 255, 0.08);
+    --on-solid: #1E140D;
+    --shadow: rgba(0, 0, 0, 0.7);
+    --scrim: rgba(0, 0, 0, 0.65);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1511;
+  --surface: #2A201A;
+  --ink: #F3E9DD;
+  --ink-2: #CDBBAA;
+  --gray: #A8978A;
+  --gray-2: #7E6F64;
+  --line: #43362D;
+  --accent: #D9A27E;
+  --accent-ink: #2A1608;
+  --flash-bg: #3E2B20;
+  --flash-fg: #E8C4A8;
+  --flash-solid: #D9A27E;
+  --fond-bg: #243640;
+  --fond-fg: #BBD6E3;
+  --fond-solid: #8DB5C7;
+  --glass: rgba(255, 255, 255, 0.08);
+  --on-solid: #1E140D;
+  --shadow: rgba(0, 0, 0, 0.7);
+  --scrim: rgba(0, 0, 0, 0.65);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.5 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.app { height: 100%; max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; position: relative; }
+
+/* En-tête */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0 8px; }
+.brand b { display: block; font: italic 500 30px/1 var(--display); letter-spacing: -0.01em; }
+.brand span { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+.top-actions { display: flex; gap: 8px; }
+.icon-btn { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; color: var(--ink-2); }
+.icon-btn.idea { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+/* Écrans */
+.screen { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
+.screen > * { flex-shrink: 0; }
+.screen-title { font: italic 500 28px/1.1 var(--display); padding-top: 4px; }
+.screen-lead { color: var(--ink-2); font-size: 15px; max-width: 60ch; }
+
+/* Choix du format */
+.seg { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.seg button { border: 0; background: transparent; border-radius: 13px; padding: 9px 10px; text-align: left; min-height: 52px; color: var(--ink); min-width: 0; }
+.seg b { display: block; font-size: 15px; font-weight: 700; }
+.seg small { display: block; font-size: 13px; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { color: var(--on-solid); background: var(--ink); }
+.seg button[aria-pressed="true"] small { color: inherit; opacity: 0.85; }
+.seg button[data-fmt="express"][aria-pressed="true"] { background: var(--flash-solid); }
+.seg button[data-fmt="long"][aria-pressed="true"] { background: var(--fond-solid); }
+
+/* Recherche et filtres */
+.filters { display: flex; gap: 8px; }
+.search { position: relative; flex: 1; min-width: 0; }
+.search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--gray); pointer-events: none; }
+.search input { width: 100%; min-height: 48px; padding: 0 14px 0 42px; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); font-size: 16px; }
+.search input::placeholder { color: var(--gray); }
+.fbtn { position: relative; min-height: 48px; padding: 0 16px; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+.fbtn .n { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font-size: 13px; display: grid; place-items: center; }
+.fsum { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; color: var(--ink-2); }
+
+/* Pile de cartes */
+.stage { position: relative; flex: 1 0 372px; display: flex; margin: 4px 0; }
+.card {
+  position: absolute; inset: 0; display: flex; flex-direction: column; gap: 8px;
+  padding: 18px 22px 16px; border-radius: 28px; overflow: hidden;
+  background: var(--tint); color: var(--ink); --tint: var(--flash-bg); --tint-fg: var(--flash-fg);
+  box-shadow: 0 22px 40px -26px var(--shadow);
+  touch-action: none; user-select: none; -webkit-user-select: none; transform-origin: 50% 100%;
+  will-change: transform;
+}
+.card[data-fmt="long"] { --tint: var(--fond-bg); --tint-fg: var(--fond-fg); }
+.card.next { transform: scale(0.95) translateY(14px); opacity: 0.85; pointer-events: none; }
+.c-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.c-fam { font-size: 15px; font-weight: 700; color: var(--tint-fg); }
+.c-tag { font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--glass); color: var(--tint-fg); }
+.c-title { font: italic 500 clamp(26px, 7.6vw, 32px)/1.05 var(--display); letter-spacing: -0.01em; text-wrap: balance; margin-top: 6px; }
+.c-skill { font-size: 16px; font-weight: 600; color: var(--ink-2); }
+.c-meta { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.c-enjeux { font-size: 15px; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 60ch; }
+.c-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--tint-fg) 30%, transparent); }
+.c-time { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: var(--tint-fg); }
+.c-more { border: 1px solid var(--tint-fg); background: var(--glass); color: var(--tint-fg); font-weight: 700; font-size: 14px; padding: 9px 16px; min-height: 44px; border-radius: 999px; }
+.stamp { position: absolute; top: 20px; padding: 6px 14px; border: 3px solid; border-radius: 12px; font: italic 600 22px/1.1 var(--display); opacity: 0; pointer-events: none; background: var(--surface); }
+.stamp.keep { right: 18px; color: var(--accent); transform: rotate(10deg); }
+.stamp.pass { left: 18px; color: var(--ink-2); transform: rotate(-10deg); }
+
+.bar { position: sticky; bottom: 0; z-index: 2; background: var(--bg); display: flex; flex-direction: column; gap: 6px; padding: 6px 0 2px; }
+.actions { display: flex; gap: 10px; }
+.act { flex: 1; min-height: 56px; border-radius: 28px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.act.keep { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.act:disabled { opacity: 0.45; cursor: default; }
+.count { text-align: center; font-size: 14px; color: var(--ink-2); }
+.legal-foot { text-align: center; font-size: 12px; color: var(--gray); }
+
+.empty { margin: auto; max-width: 340px; padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.empty h2 { font: italic 500 28px/1.1 var(--display); }
+.empty p { color: var(--ink-2); }
+
+/* Boutons et champs */
+.btn { min-height: 48px; padding: 0 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btns .btn { flex: 1 1 160px; }
+.link { border: 0; background: transparent; color: var(--ink-2); font-weight: 600; font-size: 14px; min-height: 44px; padding: 0 8px; text-decoration: underline; text-underline-offset: 3px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field label { font-weight: 700; font-size: 14px; }
+.field input, .field select, .field textarea { width: 100%; min-height: 48px; padding: 11px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); font-size: 16px; }
+.field textarea { resize: vertical; line-height: 1.45; }
+.field input::placeholder, .field textarea::placeholder { color: var(--gray); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 420px) { .row2 { grid-template-columns: 1fr; } }
+form { display: flex; flex-direction: column; gap: 14px; }
+.err { color: #B3261E; font-weight: 600; font-size: 14px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .err { color: #FF9C94; } }
+:root[data-theme="dark"] .err { color: #FF9C94; }
+
+.legal { display: flex; gap: 12px; padding: 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
+.legal svg { flex: none; color: var(--accent); margin-top: 2px; }
+.legal strong { color: var(--ink); }
+
+/* Listes : besace et séance */
+.list { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; align-items: center; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 4px 6px 4px 4px; }
+.row-main { flex: 1; min-width: 0; border: 0; background: transparent; text-align: left; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.row-main b { font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
+.row-main span { font-size: 14px; color: var(--ink-2); }
+.row-acts { display: flex; flex-direction: column; align-items: flex-end; }
+.row-acts .link { min-height: 36px; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; background: var(--flash-solid); }
+.dot.long { background: var(--fond-solid); }
+.ord { flex: none; width: 30px; height: 30px; margin-left: 8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 14px; display: grid; place-items: center; }
+.mini { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); display: grid; place-items: center; color: var(--ink-2); }
+.mini:disabled { opacity: 0.35; cursor: default; }
+.addrow { display: flex; gap: 8px; }
+.addrow select { flex: 1; min-width: 0; }
+.addrow .btn { flex: none; }
+
+/* Note rédigée */
+.out textarea { width: 100%; min-height: 260px; padding: 14px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; line-height: 1.5; }
+.out { display: flex; flex-direction: column; gap: 12px; }
+.out h2 { font: italic 500 26px/1.1 var(--display); }
+.status { font-size: 14px; color: var(--ink-2); font-weight: 600; min-height: 1.5em; }
+
+/* Barre d'onglets */
+.tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; padding: 6px 0 8px; border-top: 1px solid var(--line); }
+.tab { border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; min-height: 52px; font-size: 13px; font-weight: 600; color: var(--ink-2); border-radius: 14px; position: relative; min-width: 0; }
+.tab[aria-current="page"] { color: var(--accent); background: var(--surface); }
+.badge { position: absolute; top: 2px; left: calc(50% + 6px); min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+
+.toast { position: absolute; left: 0; right: 0; bottom: 74px; margin: 0 auto; width: fit-content; max-width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 600; z-index: 5; }
+.toast button { border: 0; background: transparent; color: inherit; font-weight: 700; text-decoration: underline; min-height: 36px; padding: 0 10px; }
+
+/* Fenêtres */
+dialog { color: var(--ink); }
+dialog::backdrop { background: var(--scrim); }
+dialog.sheet { margin: auto auto 0; width: 100%; max-width: 560px; max-height: 92vh; max-height: 92dvh; border: 0; padding: 0; border-radius: 28px 28px 0 0; background: var(--bg); }
+.sheet-in { padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); max-height: 92vh; max-height: 92dvh; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+.sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.sheet-head h2 { font: italic 500 28px/1.1 var(--display); text-wrap: balance; }
+.d-fam { font-weight: 700; font-size: 15px; color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; background: var(--surface); border: 1px solid var(--line); }
+.chip.f { background: var(--flash-bg); color: var(--flash-fg); border-color: transparent; }
+.chip.l { background: var(--fond-bg); color: var(--fond-fg); border-color: transparent; }
+.d-sec { display: flex; flex-direction: column; gap: 8px; }
+.d-sec h3 { font-size: 16px; font-weight: 700; }
+.d-sec ul { display: flex; flex-direction: column; gap: 6px; }
+.d-sec li { padding-left: 18px; position: relative; max-width: 62ch; }
+.d-sec ul li::before { content: ""; position: absolute; left: 2px; top: 0.65em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.vig { padding: 12px 14px; border-radius: 16px; background: var(--flash-bg); color: var(--ink); max-width: 62ch; }
+.foot-note { font-size: 13px; color: var(--gray); max-width: 62ch; }
+.steps { display: flex; flex-direction: column; gap: 8px; counter-reset: s; }
+.steps li { counter-increment: s; padding: 12px 14px 12px 46px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; position: relative; max-width: 62ch; }
+.steps li::before { content: counter(s); position: absolute; left: 14px; top: 11px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+dialog.sheet[open] { animation: rise 0.22s ease-out; }
+@keyframes rise { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+dialog.veil { position: fixed; inset: 0; margin: 0; width: 100%; height: 100%; max-width: none; max-height: none; border: 0; padding: 24px; background: var(--bg); }
+dialog.veil[open] { display: flex; align-items: center; justify-content: center; }
+dialog.veil::backdrop { background: var(--bg); }
+.veil-in { max-width: 380px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.veil-in h2 { font: italic 500 30px/1.1 var(--display); }
+.veil-in p { color: var(--ink-2); }
+
+.ill { display: block; height: 100%; width: auto; max-width: 100%; }
+.ill .s { fill: none; stroke: var(--tint-fg); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.ill .w { fill: var(--surface); stroke: var(--tint-fg); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.ill .f { fill: var(--tint-fg); opacity: 0.25; stroke: none; }
+.ill .d { fill: var(--tint-fg); stroke: none; }
+.c-ill { height: 78px; display: flex; justify-content: center; flex: none; margin: -2px 0 -4px; }
+.d-ill, .t-ill { --tint: var(--flash-bg); --tint-fg: var(--flash-fg); background: var(--tint); display: flex; justify-content: center; }
+.d-ill[data-fmt="long"], .t-ill[data-fmt="long"] { --tint: var(--fond-bg); --tint-fg: var(--fond-fg); }
+.d-ill { height: 120px; border-radius: 20px; padding: 6px; }
+.t-ill { height: 56px; width: 88px; flex: none; border-radius: 14px; padding: 3px; }
+.row .t-ill { margin-left: 4px; }
+.hist-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 8px; }
+.hist-head h2 { font: italic 500 24px/1.1 var(--display); }
+.who { font-size: 13px; color: var(--ink-2); }
+@media (prefers-reduced-motion: reduce) {
+  dialog.sheet[open] { animation: none; }
+}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><b>La Besace</b><span>MECS et foyers</span></div>
+    <div class="top-actions">
+      <button type="button" class="icon-btn" id="hideBtn" aria-label="Masquer l'écran" title="Masquer l'écran" data-icon="eyeoff" data-size="22"></button>
+      <button type="button" class="icon-btn idea" id="ideaBtn" aria-label="Co-création : proposer une activité" title="Une activité à proposer ?" data-icon="bulb" data-size="24"></button>
+    </div>
+  </header>
+
+  <section class="screen" id="s-cartes" aria-label="Cartes">
+    <div class="seg" role="group" aria-label="Format de la séquence">
+      <button type="button" data-fmt="express" aria-pressed="true"><b>Flash</b><small>15 à 20 min</small></button>
+      <button type="button" data-fmt="long" aria-pressed="false"><b>Fond</b><small>45 à 60 min</small></button>
+      <button type="button" data-fmt="all" aria-pressed="false"><b>Tout</b><small>Toutes durées</small></button>
+    </div>
+    <div class="filters">
+      <div class="search">
+        <span data-icon="search" data-size="20"></span>
+        <label class="sr-only" for="fQ">Rechercher une activité</label>
+        <input id="fQ" type="search" placeholder="Rechercher" autocomplete="off">
+      </div>
+      <button type="button" class="fbtn" id="fBtn"><span data-icon="filter" data-size="20"></span>Filtres<span class="n" id="fCount" hidden></span></button>
+    </div>
+    <p class="fsum" id="fSum" hidden><span>Recherche ou filtres actifs.</span><button type="button" class="link" id="fClear">Tout effacer</button></p>
+    <div class="stage" id="stage"></div>
+    <div class="bar">
+      <div class="actions">
+        <button type="button" class="act pass" id="btnPass"><span data-icon="x" data-size="22"></span>Écarter</button>
+        <button type="button" class="act keep" id="btnKeep"><span data-icon="bag" data-size="22"></span>Dans ma besace</button>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+    <p class="legal-foot">Propriété exclusive, reproduction interdite</p>
+  </section>
+
+  <section class="screen" id="s-besace" aria-label="Ma besace" hidden>
+    <h1 class="screen-title">Ma besace</h1>
+    <p class="screen-lead">Les séquences gardées en glissant une carte vers la droite.</p>
+    <ul class="list" id="bList"></ul>
+    <div class="empty" id="bEmpty" hidden>
+      <h2>Besace vide</h2>
+      <p>Glisser une carte vers la droite, ou toucher « Dans ma besace », pour la retrouver ici.</p>
+      <button type="button" class="btn primary" id="bToDeck">Voir les cartes</button>
+    </div>
+  </section>
+
+  <section class="screen" id="s-seance" aria-label="Séance du jour" hidden>
+    <h1 class="screen-title">Séance du jour</h1>
+    <p class="screen-lead">Assembler 2 ou 3 activités dans l'ordre, puis copier ou télécharger le déroulé.</p>
+    <div class="field"><label for="sName">Nom de la séance</label><input id="sName" type="text" autocomplete="off" placeholder="Ex : Mercredi après-midi, groupe des grands"></div>
+    <ol class="list" id="sList"></ol>
+    <div class="empty" id="sEmpty" hidden>
+      <h2>Séance vide</h2>
+      <p>Choisir une activité dans la liste ci-dessous ou depuis une fiche.</p>
+    </div>
+    <p class="count" id="sTotal" aria-live="polite"></p>
+    <div class="field">
+      <label for="sAddSel">Ajouter une activité</label>
+      <div class="addrow"><select id="sAddSel"></select><button type="button" class="btn" id="sAddBtn">Ajouter</button></div>
+    </div>
+    <div class="btns">
+      <button type="button" class="btn primary" id="sCopy">Copier le déroulé</button>
+      <button type="button" class="btn" id="sDocx" hidden>Télécharger en Word</button>
+      <button type="button" class="btn" id="sPdf" hidden>Télécharger en PDF</button>
+    </div>
+    <p class="status" id="sStatus" role="status"></p>
+  </section>
+
+  <section class="screen" id="s-idees" aria-label="Co-création" hidden>
+    <h1 class="screen-title">Co-création</h1>
+    <p class="screen-lead" id="ideeLead">Proposer une nouvelle activité à ajouter à la Besace. Toutes les personnes qui utilisent la page peuvent la voir, la reproduire et la partager.</p>
+    <button type="button" class="btn primary" id="ideaOpen">Proposer une nouvelle activité</button>
+    <ul class="list" id="iList"></ul>
+    <div class="empty" id="iEmpty" hidden>
+      <h2>Aucune proposition</h2>
+      <p>Les activités proposées par l'équipe apparaîtront ici.</p>
+    </div>
+  </section>
+
+  <section class="screen" id="s-note" aria-label="Note d'évaluation" hidden>
+    <h1 class="screen-title">Note d'évaluation clinique</h1>
+    <form id="noteForm" novalidate>
+      <div class="legal">
+        <span data-icon="shield" data-size="22"></span>
+        <p><strong>Cadre légal.</strong> Cette interface est un assistant de rédaction local (RGPD). Ne saisir aucun nom de famille. Utiliser uniquement des initiales ou un prénom fictif pour respecter le secret professionnel (art. 226-13 du Code pénal). Les notes enregistrées restent uniquement sur cet appareil : elles ne sont jamais envoyées ni partagées.</p>
+      </div>
+      <div class="field"><label for="nAct">Séquence réalisée</label><select id="nAct"></select></div>
+      <div class="field" id="nOtherWrap" hidden><label for="nOther">Nom de la séquence</label><input id="nOther" type="text" autocomplete="off"></div>
+      <div class="field"><label for="nYoung">Identifiant anonymisé (initiales ou prénom seul)</label><input id="nYoung" type="text" autocomplete="off" placeholder="Ex : Lucas ou M."></div>
+      <div class="row2">
+        <div class="field"><label for="nDur">Durée réelle (min)</label><input id="nDur" type="number" inputmode="numeric" min="1" max="600" placeholder="Ex : 45"></div>
+        <div class="field"><label for="nDyn">Dynamique générale</label>
+          <select id="nDyn">
+            <option value="Individuelle (Séquence exclusive)">Individuelle (1-à-1)</option>
+            <option value="Collective (Petit groupe)">Collective</option>
+            <option value="Mixte (Intégration progressive)">Mixte</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="nReaction">Posture et réactivité face à la médiation</label><textarea id="nReaction" rows="3" placeholder="Observations à chaud…"></textarea></div>
+      <div class="field"><label for="nInd">Indicateurs observables (freins et réussites)</label><textarea id="nInd" rows="3" placeholder="Faits marquants…"></textarea></div>
+      <div class="field"><label for="nProj">Impact et perspectives (projet personnalisé)</label><textarea id="nProj" rows="3" placeholder="Axe travaillé…"></textarea></div>
+      <button type="submit" class="btn primary" id="noteSubmit">Enregistrer et copier la note</button>
+    </form>
+    <div class="out" id="noteOut" hidden>
+      <h2>Note prête</h2>
+      <label class="sr-only" for="outText">Texte de la note</label>
+      <textarea id="outText" readonly></textarea>
+      <p class="status" id="copyStatus" role="status"></p>
+      <div class="btns">
+        <button type="button" class="btn" id="copyAgain">Copier de nouveau</button>
+        <button type="button" class="btn" id="nDocx" hidden>Télécharger en Word</button>
+        <button type="button" class="btn" id="nPdf" hidden>Télécharger en PDF</button>
+        <button type="button" class="btn" id="editNote" hidden>Modifier</button>
+        <button type="button" class="btn" id="delNote" hidden>Supprimer</button>
+        <button type="button" class="btn primary" id="newNote">Nouvelle note</button>
+      </div>
+    </div>
+    <div id="nHist" hidden>
+      <div class="hist-head"><h2 id="nHistTitle">Notes enregistrées</h2><button type="button" class="link" id="nClear">Tout supprimer</button></div>
+      <ul class="list" id="nList"></ul>
+    </div>
+  </section>
+
+  <nav class="tabs" aria-label="Sections">
+    <button type="button" class="tab" data-tab="cartes" aria-current="page"><span data-icon="cards" data-size="22"></span>Cartes</button>
+    <button type="button" class="tab" data-tab="besace"><span data-icon="bag" data-size="22"></span>Besace<span class="badge" id="bBadge" hidden></span></button>
+    <button type="button" class="tab" data-tab="seance"><span data-icon="list" data-size="22"></span>Séance<span class="badge" id="sBadge" hidden></span></button>
+    <button type="button" class="tab" data-tab="idees"><span data-icon="bulb" data-size="22"></span>Co-créer</button>
+    <button type="button" class="tab" data-tab="note"><span data-icon="pen" data-size="22"></span>Note</button>
+  </nav>
+  <div class="toast" id="toast" role="status" hidden></div>
+</div>
+
+<dialog id="dInfo" class="sheet"></dialog>
+
+<dialog id="dFilt" class="sheet" aria-labelledby="filtTitle">
+  <div class="sheet-in">
+    <div class="sheet-head">
+      <h2 id="filtTitle">Filtres</h2>
+      <button type="button" class="icon-btn" data-close aria-label="Fermer" data-icon="x" data-size="22"></button>
+    </div>
+    <div class="field"><label for="fTheme">Thème</label><select id="fTheme"></select></div>
+    <div class="field"><label for="fN">Nombre de jeunes</label><input id="fN" type="number" inputmode="numeric" min="1" max="40" placeholder="Ex : 6"></div>
+    <div class="field"><label for="fMax">Durée maximale</label>
+      <select id="fMax">
+        <option value="">Toutes les durées</option>
+        <option value="20">20 min</option>
+        <option value="45">45 min</option>
+        <option value="50">50 min</option>
+        <option value="60">60 min</option>
+      </select>
+    </div>
+    <div class="btns">
+      <button type="button" class="btn" id="fReset">Effacer</button>
+      <button type="button" class="btn primary" data-close>Voir les cartes</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dIdea" class="sheet" aria-labelledby="ideaTitle">
+  <div class="sheet-in">
+    <div class="sheet-head">
+      <h2 id="ideaTitle">Nouvelle activité</h2>
+      <button type="button" class="icon-btn" data-close aria-label="Fermer" data-icon="x" data-size="22"></button>
+    </div>
+    <form id="ideaForm" novalidate>
+      <p class="screen-lead" id="ideaLead">Participer à la richesse clinique de la Besace : proposer une activité qui rejoindra les cartes.</p>
+      <div class="field"><label for="iTitle">Nom de l'activité</label><input id="iTitle" type="text" autocomplete="off" placeholder="Ex : Le Conseil des Sages"></div>
+      <div class="field"><label for="iCat">Famille de l'activité</label>
+        <select id="iCat">
+          <option value="Cohésion / Coopération & Confiance">Cohésion et confiance</option>
+          <option value="Expression / Théâtre & Parole">Expression et théâtre</option>
+          <option value="Régulation / Émotions & Apaisement">Régulation et émotions</option>
+          <option value="Débat / Esprit Critique">Débat et esprit critique</option>
+          <option value="Autonomie / Vie Quotidienne">Autonomie et vie quotidienne</option>
+          <option value="Atelier Créatif / Création Manuelle">Création et manuel</option>
+          <option value="Energizer / Énergie & Réveil">Énergie et réveil</option>
+        </select>
+      </div>
+      <div class="field"><label for="iFmt">Format de temps</label>
+        <select id="iFmt"><option value="express">Flash (15 à 20 min)</option><option value="long">Séquence de fond (45 à 60 min)</option></select>
+      </div>
+      <div class="field"><label for="iStakes">Enjeux éducatifs et cliniques décelés</label><textarea id="iStakes" rows="3" placeholder="Qu'est-ce que cet exercice travaille ?"></textarea></div>
+      <div class="row2">
+        <div class="field"><label for="iNbMin">Jeunes (minimum)</label><input id="iNbMin" type="number" inputmode="numeric" min="1" max="40" placeholder="Ex : 4"></div>
+        <div class="field"><label for="iNbMax">Jeunes (maximum)</label><input id="iNbMax" type="number" inputmode="numeric" min="1" max="40" placeholder="Ex : 12"></div>
+      </div>
+      <div class="field"><label for="iMat">Matériel (facultatif, séparé par des virgules)</label><input id="iMat" type="text" autocomplete="off" placeholder="Ex : feutres, grandes feuilles"></div>
+      <div class="field"><label for="iSteps">Déroulé (facultatif, une étape par ligne)</label><textarea id="iSteps" rows="4"></textarea></div>
+      <div class="field"><label for="iAuthor">Structure de provenance ou signature</label><input id="iAuthor" type="text" autocomplete="off" placeholder="Ex : Équipe MECS"></div>
+      <p class="err" id="ideaErr" role="alert" hidden></p>
+      <div class="btns">
+        <button type="button" class="btn" data-close>Retour</button>
+        <button type="submit" class="btn primary" id="ideaSubmit">Ajouter à la Besace</button>
+      </div>
+    </form>
+    <div class="out" id="ideaDone" hidden>
+      <h2>Activité ajoutée</h2>
+      <p id="ideaDoneMsg"></p>
+      <p class="status" id="ideaCopyStatus" role="status"></p>
+      <div class="btns">
+        <button type="button" class="btn" id="ideaCopy">Copier le texte de l'idée</button>
+        <button type="button" class="btn" id="ideaAnother">Proposer une autre activité</button>
+        <button type="button" class="btn primary" id="ideaSee">Voir la co-création</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="veil" class="veil" aria-labelledby="veilTitle">
+  <div class="veil-in">
+    <span data-icon="shield" data-size="40"></span>
+    <h2 id="veilTitle">Contenu protégé</h2>
+    <p>Par mesure de confidentialité et de respect du secret professionnel, l'affichage est suspendu.</p>
+    <button type="button" class="btn primary" id="veilBtn">Afficher de nouveau</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+  var BASE = [{"id":"le-jeu-du-moustique","title":"Le Jeu du Moustique","tag":"","time":"15 min","cat":"Energizer / Coordination & Impulsivité","fmt":"express","enjeux":"Met en lumière la gestion de l'impulsivité, l'anticipation motrice et l'esprit de collaboration sous pression. Très utile pour observer qui se laisse déborder par l'excitation.","objs":["Canaliser l'énergie de groupe par une consigne rythmique stricte","Développer la vigilance et la synchronisation duos/collectif"],"steps":["Tout le monde se place debout, en grand cercle.","Un moustique imaginaire vole au centre. Pour le tuer, il faut frapper dans ses mains à deux, juste au-dessus de la tête du jeune situé entre nous.","L'éducateur lance le signal en feignant de viser une zone.","Si le duo rate sa synchronisation ou si le jeune du milieu ne se baisse pas à temps, le moustique se déplace."],"nb":[8,20],"mat":[],"theme":["energie","regulation"],"vig":"Rappeler que les mains s'arrêtent au-dessus de la tête, sans contact. Prévoir un retour au calme après le jeu.","age":"11-16 ans"},{"id":"le-jeu-de-la-maison","title":"Le Jeu de la Maison","tag":"","time":"20 min","cat":"Energizer / Réactivité & Inclusion","fmt":"express","enjeux":"Excellent capteur clinique sur le sentiment d'exclusion, l'esprit de compétition et les affinités sélectives au sein de la maisonnée.","objs":["Renforcer la réactivité motrice et l'adaptation au changement","Travailler la frustration liée à la perte ou à l'absence de place"],"steps":["Les jeunes forment des binômes 'Maisons' en se tenant par les mains, face à face.","D'autres jeunes se glissent à l'intérieur pour jouer les 'Habitants'. Un ou deux jeunes restent seuls au centre.","Au cri de 'Tempête !', toutes les maisons s'ouvrent, les habitants doivent obligatoirement changer de maison.","Les exclus tentent de piquer une place libre. On inverse ensuite les rôles."],"nb":[7,20],"mat":[],"theme":["energie","lien"],"vig":"Dégager l'espace et rappeler de ne pas se bousculer au changement de maison. Veiller à ce que ce ne soient pas toujours les mêmes jeunes qui restent sans place.","age":"11-16 ans"},{"id":"3-mensonges-et-1-verite","title":"3 Mensonges et 1 Vérité","tag":"","time":"20 min","cat":"Brise-Glace / Image de Soi & Discernement","fmt":"express","enjeux":"Permet d'observer les stratégies de présentation de soi, l'estime personnelle et la perception qu'ont les autres du jeune. Idéal pour repérer des fabulations protectrices.","objs":["Valoriser des anecdotes personnelles positives","Affiner le sens du discernement et l'écoute active au sein du groupe"],"steps":["Chaque jeune prépare sur papier 4 affirmations sur sa vie (3 fausses, 1 vraie).","À tour de rôle, le jeune énonce ses propositions de manière neutre.","Le groupe débat et vote collectivement pour démêler le vrai du faux.","Révélation et débriefing informel sur les préjugés inconscients."],"nb":[4,12],"mat":["Feuilles","Stylos"],"theme":["lien","expression"],"vig":"Rester sur des anecdotes que le jeune accepte de partager, sans pousser vers sa vie familiale.","age":"11-16 ans"},{"id":"la-balle-imaginaire","title":"La Balle Imaginaire","tag":"","time":"15 min","cat":"Inclusion / Focus & Prénoms","fmt":"express","enjeux":"Outil d'intégration puissant à l'arrivée d'un nouveau résident. Permet de mesurer le niveau d'anxiété sociale et le respect des règles d'engagement spatial.","objs":["Faciliter l'apprentissage ludique des prénoms","Travailler la coordination visio-motrice par le mime d'un objet invisible"],"steps":["Le groupe forme un cercle comprenant le nouvel arrivant.","L'éducateur matérialise par le mime une balle invisible (taille, poids).","Un jeune doit appeler un pair par son prénom, capter son regard, puis lui lancer la balle avec la gestuelle adaptée.","Le receveur valide la réception, change éventuellement la forme de l'objet (ex: bombe lourde), puis passe à un autre."],"nb":[6,15],"mat":[],"theme":["lien","expression"],"vig":"Laisser un jeune passer son tour sans commentaire. Utile à l'arrivée d'un nouveau, sans le mettre en avant.","age":"11-16 ans"},{"id":"la-sculpture-invisible","title":"La Sculpture Invisible","tag":"","time":"20 min","cat":"Expression / Abstraction & Coopération","fmt":"express","enjeux":"Révèle la flexibilité mentale, la capacité à s'accorder sur un imaginaire commun sans support concret, et le respect des consignes spatiales de l'autre.","objs":["Stimuler l'improvisation collective non-verbale","Développer le sens de l'espace et la projection symbolique"],"steps":["Un premier jeune avance au centre et mime le modelage d'un bloc d'argile invisible.","Il prend une pose figée représentant une partie d'un objet mystère.","Un deuxième jeune doit observer l'espace libre, s'intégrer à la sculpture pour la compléter.","L'éducateur invite le reste du groupe à décoder la sculpture finale."],"nb":[5,15],"mat":[],"theme":["expression","lien"],"vig":"Chacun choisit sa place, sans contact obligatoire. Accepter une sculpture décalée sans la corriger.","age":"11-16 ans"},{"id":"le-pan-lapin","title":"Le Pan-Lapin","tag":"","time":"15 min","cat":"Régulation / Inhibition Motrice","fmt":"express","enjeux":"Mesure directe du contrôle inhibiteur et de la réactivité sous l'effet de la surprise. Révèle la gestion de la frustration en cas d'élimination.","objs":["Développer les réflexes et l'attention sélective focalisée","Travailler le contrôle de soi et l'autodiscipline comportementale"],"steps":["Groupe en cercle, un meneur au centre simule un pistolet avec ses mains.","Le meneur pointe un jeune en criant 'Pan !'. Ce jeune doit s'accroupir instantanément.","Ses deux voisins directs doivent alors se faire face et crier 'Lapin !' en se pointant.","Le plus lent est éliminé ou devient le nouveau meneur au centre."],"nb":[8,20],"mat":[],"theme":["regulation","energie"],"vig":"Le geste du pistolet avec les mains peut évoquer des vécus difficiles : proposer un autre geste (bras tendu, doigt levé) si besoin. Soigner l'élimination pour éviter l'humiliation.","age":"11-16 ans"},{"id":"la-maladie-contagieuse","title":"La Maladie Contagieuse","tag":"","time":"20 min","cat":"Expression / Régulation Émotionnelle","fmt":"express","enjeux":"Excellent support clinique pour observer l'écho émotionnel chez le jeune, sa pudeur corporelle, et sa capacité à extérioriser des affects complexes (peur, déprime, joie).","objs":["Identifier et projeter corporellement un spectre d'émotions précises","Favoriser le lâcher-prise en s'appuyant sur l'effet d'entraînement du groupe"],"steps":["Les participants déambulent librement dans l'espace disponible.","Au signal de l'animateur, tout le monde se fige instantanément en statue.","L'animateur désigne un patient zéro qui choisit une émotion (ex: la panique) et s'anime.","En touchant les autres statues, il transmet sa 'contagion' qui se propage jusqu'au figement final ordonné par l'éducateur pour changer de pathologie."],"nb":[8,20],"mat":[],"theme":["regulation","expression"],"vig":"Les émotions fortes comme la peur ou la panique peuvent réveiller des vécus : prévoir un retour au calme. Un simple effleurement suffit pour transmettre.","age":"11-16 ans"},{"id":"i-am-a-tree","title":"I am a Tree","tag":"","time":"15 min","cat":"Energizer / Réveil Émotionnel","fmt":"express","enjeux":"Indispensable pour remobiliser l'attention après une phase passive.","objs":["Stimuler l'esprit d'improvisation","Développer l'acceptation de l'autre"],"steps":["Un jeune se place au centre : 'Je suis un arbre'.","Un deuxième ajoute un élément.","Un troisième complète.","Le premier choisit avec qui il repart."],"nb":[4,12],"mat":[],"theme":["expression","energie"],"vig":"Laisser le temps de réfléchir avant d'ajouter un élément et accepter les propositions décalées.","age":"11-16 ans"},{"id":"le-chrono-prenoms","title":"Le Chrono-Prénoms","tag":"","time":"15 min","cat":"Energizer / Habiletés Institutionnelles","fmt":"express","enjeux":"Idéal pour briser l'angoisse lors d'une intégration.","objs":["Mémoriser rapidement","S'organiser sans parole"],"steps":["Groupe en cercle.","Se classer par ordre alphabétique sans parler.","Tout faire par signes.","Validation collective."],"nb":[8,20],"mat":[],"theme":["energie","lien"],"vig":"L'ordre alphabétique peut mettre en échec un jeune en difficulté de lecture : prévoir une aide discrète.","age":"11-16 ans"},{"id":"le-defi-miroir","title":"Le Défi Miroir","tag":"","time":"20 min","cat":"Régulation / Empathie Kinesthésique","fmt":"express","enjeux":"Ajustement relationnel et canalisation de l'excitation.","objs":["Écoute active non-verbal","Ralentissement moteur contrôlé"],"steps":["Binômes face à face.","Joueur A imite en miroir les mouvements lents du joueur B.","Inversion des rôles au signal."],"nb":[2,20],"mat":[],"theme":["regulation","lien"],"vig":"Former les binômes avec soin. Valoriser le ralentissement plutôt que la performance.","age":"11-16 ans"},{"id":"le-cercle-de-confiance","title":"Le Cercle de Confiance","tag":"","time":"20 min","cat":"Habiletés Sociales / Posture de Groupe","fmt":"express","enjeux":"Explore la barrière corporelle, le consentement et la sécurité.","objs":["Éprouver le lâcher-prise en sécurité","Responsabiliser le groupe"],"steps":["Un jeune au centre d'un cercle serré.","Les autres placent leurs mains en avant.","Le jeune ferme les yeux et bascule.","Réception douce par le groupe."],"nb":[6,12],"mat":["Un sol dégagé"],"theme":["lien","regulation"],"vig":"Personne n'est obligé de se laisser tomber au centre. Resserrer le cercle, rester dedans et attendre que le groupe soit calme.","age":"11-16 ans"},{"id":"cine-debat-institutionnel","title":"Ciné-Débat Institutionnel","tag":"","time":"60 min","cat":"Médiation Média / Esprit Critique","fmt":"long","enjeux":"Permet de confronter des représentations sociales à travers une œuvre vidéo. Évalue la tolérance à l'opinion divergente et l'écoute mutuelle.","objs":["Développer une argumentation citoyenne construite","Savoir écouter et respecter le temps de parole de ses pairs"],"steps":["Projection d'un court-métrage ou d'une scène clé ciblée (thème harcèlement, justice...).","Distribution de jetons de parole pour réguler les interventions.","Débat guidé par l'éducateur à l'aide de questions ouvertes.","Synthèse collective des points d'accord et des apprentissages."],"nb":[5,14],"mat":["Écran ou projecteur","Court-métrage ou scène choisie","Jetons de parole"],"theme":["critique"],"vig":"Visionner le film à l'avance et prévenir le groupe quand le thème (harcèlement, justice) peut toucher des vécus.","age":"11-16 ans"},{"id":"diy-l-atelier-upcycling-customisation","title":"DIY : L'Atelier Upcycling & Customisation","tag":"","time":"60 min","cat":"Atelier Créatif / Éco-Citoyenneté","fmt":"long","enjeux":"Soutient la revalorisation de soi à travers la revalorisation d'un déchet. Travaille la patience et la planification d'un projet manuel court.","objs":["Sensibiliser au réemploi et à la gestion éco-responsable","Développer la créativité et la dextérité manuelle de précision"],"steps":["Sélection d'un objet destiné au rebut (boîte de conserve, bocal, planche).","Nettoyage, ponçage ou découpe sécurisée sous supervision.","Phase de personnalisation (peinture, collage, détournement utilitaire).","Exposition des créations dans un espace commun de la structure."],"nb":[4,12],"mat":["Objets de récupération (boîtes de conserve, bocaux, planches)","Peinture, colle, papier de verre","Outils de découpe, sous supervision"],"theme":["creation"],"vig":"Protéger ou limer les bords coupants des boîtes de conserve. Découpe et ponçage uniquement sous supervision.","age":"11-16 ans"},{"id":"le-proces-de-la-chaise","title":"Le Procès de la Chaise","tag":"Gratuit #1","time":"45 min","cat":"Théâtre / Habiletés Sociales","fmt":"long","enjeux":"Permet d'extérioriser le rapport à l'autorité, aux règles et au système judiciaire de manière hautement sécurisée par le jeu de rôle.","objs":["Comprendre le fonctionnement et la structure d'un débat contradictoire","Développer l'éloquence et l'usage de la parole comme alternative à la violence"],"steps":["Une chaise au centre est désignée coupable d'un crime absurde (ex: avoir grincé pendant un film).","Répartition des rôles : Juges, avocats de la défense, procureurs, témoins.","Phase de préparation des arguments par équipe (15 min).","Déroulement du procès fictif sous le contrôle du juge (éducateur)."],"nb":[8,16],"mat":["Une chaise","Feuilles et stylos pour préparer les arguments"],"theme":["critique","expression"],"vig":"Choisir un crime absurde, jamais lié à un fait réel de la structure. Garder un rôle de juge neutre.","age":"11-16 ans"},{"id":"l-ile-deserte-collective","title":"L'Île Déserte Collective","tag":"Gratuit #2","time":"45 min","cat":"Cohésion / Négociation & Coopération","fmt":"long","enjeux":"Révèle le positionnement individuel dans un groupe en situation de crise fictive : leadership, repli sur soi, esprit de sacrifice ou individualisme.","objs":["Expérimenter la prise de décision par consensus absolu","Savoir hiérarchiser des besoins fondamentaux de survie versus confort"],"steps":["Scénario : Le groupe est coincé sur une île. Ils ne peuvent garder que 5 objets parmi une liste de 20.","Phase de réflexion individuelle, puis mise en commun collective.","Obligation de débattre jusqu'à l'obtention d'un accord unanime sans vote à la majorité.","Débriefing sur les concessions faites par chacun."],"nb":[5,12],"mat":["Liste de 20 objets imprimée","Feuilles et stylos"],"theme":["lien","critique"],"vig":"Veiller à ce que chacun puisse s'exprimer. Pas de vote : l'accord doit être unanime.","age":"11-16 ans"},{"id":"l-improvisation-cascade","title":"L'Improvisation Cascade","tag":"Gratuit #3","time":"50 min","cat":"Théâtre / Lâcher-Prise & Écoute","fmt":"long","enjeux":"Travaille l'adaptabilité immédiate face à l'imprévu. Idéal pour bousculer les postures rigides ou les blocages de communication.","objs":["Développer la réactivité et la flexibilité face aux changements de contexte","Valoriser la prise de parole spontanée devant un public"],"steps":["Deux jeunes commencent une scène improvisée sur un thème du quotidien.","À tout moment, l'éducateur crie 'Gel !'. Les acteurs se figent instantanément.","Un jeune du public remplace un des acteurs, adopte sa position physique exacte, et relance une histoire totalement différente.","Rotation rapide pour impliquer l'ensemble du groupe."],"nb":[6,16],"mat":[],"theme":["expression"],"vig":"Les jeunes qui ne veulent pas jouer peuvent observer d'abord. Relancer la scène sans juger.","age":"11-16 ans"},{"id":"la-cartographie-humaine","title":"La Cartographie Humaine","tag":"Gratuit #4","time":"45 min","cat":"Expression / Repérage Spatial & Identité","fmt":"long","enjeux":"Permet d'aborder l'histoire de vie, l'ancrage territorial et le sentiment d'appartenance sans l'agressivité d'un questionnaire direct.","objs":["Représenter son parcours de vie sous une forme géospatiale symbolique","Partager des éléments identitaires dans le respect de la discrétion de chacun"],"steps":["La pièce représente la carte du monde ou de la France. L'éducateur place les points cardinaux.","Les jeunes se positionnent physiquement selon leur lieu de naissance, leurs rêves, etc.","Invitation à expliquer son positionnement à ses voisins immédiats.","Restitution en grand groupe sur les trajectoires communes décelées."],"nb":[6,16],"mat":["Une grande pièce dégagée"],"theme":["expression","lien"],"vig":"On peut se placer sans expliquer. Le lieu de naissance ou la famille peuvent être douloureux : ne rien imposer.","age":"11-16 ans"},{"id":"le-doublage-de-l-ombre","title":"Le Doublage de l'Ombre","tag":"Gratuit #5","time":"50 min","cat":"Théâtre / Synchronisation relationnelle","fmt":"long","enjeux":"Développe une observation fine de l'autre et l'empathie. Oblige à caler son intention sur celle d'un partenaire.","objs":["Dissocier l'expression corporelle et la production verbale","Créer une harmonie d'action au sein d'un binôme interdépendant"],"steps":["Deux acteurs miment une scène d'action du quotidien (ex: cuisiner) sans émettre de son.","Deux autres jeunes, assis en retrait, font les voix hors-champ en direct.","Les doubleurs doivent calquer leurs mots sur les gestes visibles, et inversement.","Inversion des rôles pour expérimenter les deux postures (corps/voix)."],"nb":[4,12],"mat":[],"theme":["expression","lien"],"vig":"Former les binômes avec soin et laisser chacun choisir d'abord sa posture (corps ou voix).","age":"11-16 ans"},{"id":"l-objet-mystere-conte","title":"L'Objet Mystère Conté","tag":"Gratuit #6","time":"45 min","cat":"Improvisation / Créativité cognitive","fmt":"long","enjeux":"Évalue la capacité à détourner le sens d'un objet réel, témoignant de l'imagination et du niveau d'inhibition cognitive.","objs":["Détourner la fonction première d'un objet du quotidien par le mime","Construire une narration imaginaire fluide et captivante"],"steps":["Un objet banal (ex: un balai, une bouteille vide) est placé au centre.","À tour de rôle, chaque jeune doit l'utiliser comme s'il s'agissait de tout autre chose (ex: une guitare, un télescope).","Il doit inventer une micro-histoire de 1 minute basée sur ce nouvel objet.","Le groupe valide la pertinence du détournement."],"nb":[4,14],"mat":["Un objet banal (balai, bouteille vide)"],"theme":["creation","expression"],"vig":"Valoriser tous les détournements et ne pas imposer de durée à un jeune hésitant.","age":"11-16 ans"},{"id":"le-guide-aveugle","title":"Le Guide Aveugle","tag":"Gratuit #7","time":"50 min","cat":"Habiletés Sociales / Confiance & Posture","fmt":"long","enjeux":"Met à l'épreuve la responsabilité individuelle vis-à-vis d'un pair vulnérable et la capacité à confier sa sécurité à l'autre.","objs":["Expérimenter la dépendance constructive à un pair","Développer des consignes verbales claires, calmes et sécurisantes"],"steps":["Un parcours d'obstacles simples (chaises, tables) est aménagé dans la pièce.","Par binômes : Le joueur A a les yeux bandés ; le joueur B le dirige uniquement à la voix.","Interdiction absolue de toucher physiquement le partenaire guidé.","Inversion après réussite du parcours, analyse du niveau d'anxiété ressenti."],"nb":[4,14],"mat":["Bandeaux pour les yeux","Chaises et tables pour le parcours"],"theme":["lien"],"vig":"Parcours simple et dégagé, l'éducateur circule. Un jeune peut refuser le bandeau et fermer les yeux à la place.","age":"11-16 ans"},{"id":"la-ligne-du-temps-reelle","title":"La Ligne du Temps Réelle","tag":"Gratuit #8","time":"45 min","cat":"Autonomie / Planification temporelle","fmt":"long","enjeux":"Aide à la structuration cognitive du temps. Indispensable pour travailler la projection vers l'autonomie en fin de prise en charge.","objs":["Matérialiser visuellement les étapes d'un projet personnel à long terme","Identifier les ressources et les freins potentiels dans un calendrier"],"steps":["Une corde ou une ligne au sol représente les 5 prochaines années.","Le jeune écrit ses objectifs majeurs (permis, diplôme, logement) sur des fiches.","Il positionne ses fiches sur la ligne et explicite la chronologie choisie.","Co-construction avec l'éducateur des micro-actions pour sécuriser l'étape 1."],"nb":[1,8],"mat":["Une corde ou un ruban au sol","Fiches et stylos"],"theme":["autonomie"],"vig":"Les projets de fin de prise en charge peuvent angoisser : rester sur des étapes concrètes et proches.","age":"14-16 ans"},{"id":"la-radio-du-foyer","title":"La Radio du Foyer","tag":"Gratuit #9","time":"60 min","cat":"Expression Média / Posture Citoyenne","fmt":"long","enjeux":"Permet d'aborder l'expression orale sans l'angoisse du regard direct de l'autre (effet micro/studio).","objs":["Structurer une chronique orale synthétique sur un thème choisi","Respecter les règles techniques de l'interview et de la libre antenne"],"steps":["Simulation d'un plateau radio avec un faux micro au centre.","Répartition des rôles : Animateur, chroniqueurs, invités de la table ronde.","Écriture rapide d'une thématique liée à la vie en collectivité.","Enregistrement fictif (ou réel via dictaphone) de l'émission."],"nb":[5,12],"mat":["Un faux micro","Dictaphone (facultatif)"],"theme":["expression","critique"],"vig":"Un enregistrement réel demande l'accord de chacun (voix, droit à l'image). Parler de la vie en collectivité sans mettre des personnes en cause.","age":"11-16 ans"},{"id":"l-histoire-sans-fin","title":"L'Histoire Sans Fin","tag":"Gratuit #10","time":"45 min","cat":"Créativité / Logique & Mémorisation","fmt":"long","enjeux":"Observe la rétention d'informations à court terme et le respect de la cohérence logique imposée par un tiers.","objs":["Stimuler la mémoire auditive immédiate","S'inscrire dans une continuité logique collective sans imposer ses choix"],"steps":["L'éducateur commence une histoire par une phrase simple.","Le premier jeune doit répéter la phrase et ajouter la sienne.","Le processus continue en chaîne autour du cercle de parole.","Si un maillon oublie un élément, le groupe l'aide de manière bienveillante."],"nb":[5,14],"mat":[],"theme":["creation","expression"],"vig":"Le groupe aide un jeune qui oublie, sans moquerie. Commencer par une phrase simple.","age":"11-16 ans"},{"id":"le-tribunal-des-cliches","title":"Le Tribunal des Clichés","tag":"Gratuit #11","time":"50 min","cat":"Débat / Esprit Critique","fmt":"long","enjeux":"Déconstruction des stéréotypes (racisme, sexisme, homophobie) par le prisme de l'analyse logique.","objs":["Déceler les biais de généralisation dans le discours commun","Défendre une position en s'appuyant sur des faits vérifiables"],"steps":["Un préjugé courant est écrit au tableau (ex: 'Tous les jeunes en foyer sont...').","Le groupe se divise : les 'Enquêteurs' cherchent des contre-exemples, les 'Avocats' cadrent le débat.","Présentation des arguments sous forme d'audiences régulées.","Clôture par un texte de loi ou un rappel des valeurs républicaines."],"nb":[6,16],"mat":["Tableau ou paperboard","Feutres"],"theme":["critique"],"vig":"Choisir des préjugés qui ne ciblent aucun jeune du groupe et cadrer tout de suite les propos discriminants.","age":"13-16 ans"},{"id":"les-statues-de-l-emotion","title":"Les Statues de l'Émotion","tag":"Gratuit #12","time":"45 min","cat":"Théâtre / Psychomotricité & Affects","fmt":"long","enjeux":"Permet de conscientiser la somatisation des émotions dans le corps (colère dans les poings, tristesse dans le dos voûté).","objs":["Traduire un état psychologique interne en posture corporelle lisible","Décoder les signaux non-verbaux de détresse ou de joie chez autrui"],"steps":["Par deux : Un jeune joue le 'Sculpteur', l'autre la 'Pâte à modeler'.","L'éducateur donne une consigne d'état d'esprit (ex: La trahison, la fierté).","Le sculpteur manipule délicatement le corps de son partenaire pour exprimer l'état.","Visite guidée de l'exposition par le groupe pour décoder le travail réalisé."],"nb":[4,14],"mat":[],"theme":["regulation","expression"],"vig":"Le contact se fait toujours avec l'accord de la « pâte à modeler » ; on peut aussi guider à la voix. Prévoir un retour au calme.","age":"11-16 ans"},{"id":"le-conseil-des-sages","title":"Le Conseil des Sages","tag":"Gratuit #13","time":"60 min","cat":"Régulation / Climat Institutionnel","fmt":"long","enjeux":"Restauration du dialogue après une crise ou une période de tensions majeures dans la structure.","objs":["Expérimenter un espace de parole sécurisé, horizontal et sans sanction","Rechercher des solutions concrètes aux problématiques du quotidien"],"steps":["Installation du groupe en cercle, un témoin de parole circule.","Rappel des règles : Non-jugement, interdiction de couper la parole, confidentialité.","Expression libre des ressentis liés aux événements récents.","Inscription sur un paperboard des 3 règles d'or votées pour la semaine."],"nb":[5,14],"mat":["Un témoin de parole","Paperboard et feutres"],"theme":["lien","regulation"],"vig":"Rappeler les règles avant de commencer, rester dans un cadre sans sanction et ne pas revenir sur des faits individuels.","age":"11-16 ans"},{"id":"l-interview-inversee","title":"L'Interview Inversée","tag":"Gratuit #14","time":"45 min","cat":"Habiletés Sociales / Empathie","fmt":"long","enjeux":"Permet de forcer un décentrage cognitif en adoptant les opinions et les contraintes de l'autre.","objs":["Se mettre à la place d'autrui pour comprendre ses motivations profondes","Adopter une posture d'écoute active bienveillante en entrevue"],"steps":["Les jeunes forment des duos. Ils s'interviewent mutuellement sur leurs goûts pendant 10 min.","Lors de la restitution, le jeune A doit se présenter au groupe en prenant la place de B (il parle à la première personne).","Le jeune B valide la fidélité de la présentation.","Analyse clinique sur la capacité de mémorisation relationnelle."],"nb":[4,14],"mat":["Feuilles et stylos"],"theme":["lien","expression"],"vig":"Former les duos avec soin. La restitution doit rester bienveillante.","age":"11-16 ans"},{"id":"le-parcours-d-orientation-interne","title":"Le Parcours d'Orientation Interne","tag":"Gratuit #15","time":"55 min","cat":"Autonomie / Appropriation de l'Espace","fmt":"long","enjeux":"Observe la capacité à coopérer sous contrainte de temps et la maîtrise des règles de sécurité de l'établissement.","objs":["S'orienter efficacement dans un espace architectural contraint","Respecter un plan de route écrit en autonomie d'équipe"],"steps":["Des balises énigmes cachées dans les zones autorisées du bâtiment.","Constitution d'équipes hétérogènes (anciens et nouveaux résidents mélangés).","Résolution d'énigmes basées sur le règlement intérieur (ex: 'Où trouve-t-on le classeur de présence ?').","Arrivée et débriefing autour des droits et devoirs au sein du foyer."],"nb":[6,16],"mat":["Énigmes imprimées","Règlement intérieur"],"theme":["autonomie","lien"],"vig":"Limiter le parcours aux zones autorisées et prévenir les autres adultes. Mélanger anciens et nouveaux résidents.","age":"11-16 ans"},{"id":"la-riviere-du-doute","title":"La Rivière du Doute","tag":"","time":"45 min","cat":"Débat Mouvant / Libre Expression","fmt":"long","enjeux":"Matérialiser physiquement le positionnement idéologique.","objs":["Forger l'esprit critique","Formuler un argumentaire sans agressivité"],"steps":["Ligne au sol (Accord / Désaccord).","Énoncer une affirmation clivante liée au foyer.","Positionnement physique des jeunes.","Parole alternative et mouvements libres."],"nb":[6,16],"mat":["Une corde ou du ruban adhésif au sol"],"theme":["critique"],"vig":"Choisir des affirmations qui ne ciblent personne. Les jeunes peuvent changer de place librement.","age":"11-16 ans"},{"id":"script-tiktok-reel","title":"Script TikTok Réel","tag":"","time":"60 min","cat":"Médiation Média / Esprit Critique","fmt":"long","enjeux":"Détourner l'usage passif pour en faire de la prévention.","objs":["Maîtriser l'esprit de synthèse","Distance critique face au numérique"],"steps":["Mini-équipes autour d'un projet de prévention.","Écriture du storyboard.","Répétition à blanc.","Restitution collective."],"nb":[4,12],"mat":["Feuilles et feutres pour le storyboard"],"theme":["creation","critique"],"vig":"Pas de tournage ni de publication sans l'accord de chacun (droit à l'image). Rester sur la prévention.","age":"12-16 ans"},{"id":"my-self-care-box","title":"My Self-Care Box","tag":"","time":"45 min","cat":"Autonomie Individuelle / Image de Soi","fmt":"long","enjeux":"Aborder l'hygiène intime sans jugement.","objs":["Dédramatiser la puberté","Espace de dialogue contenant"],"steps":["Décoration individuelle d'une boîte.","Sélection de produits de soin adaptés.","Discussion technique sur l'intimité.","Boîte sanctuarisée dans la chambre."],"nb":[3,8],"mat":["Boîtes à décorer","Matériel de décoration","Produits de soin adaptés"],"theme":["autonomie","creation"],"vig":"Parler d'intimité sans exposer : personne n'est obligé de commenter ses choix. Prévoir un adulte référent pour les questions.","age":"12-16 ans"},{"id":"dressing-custom-linge","title":"Dressing Custom & Linge","tag":"","time":"60 min","cat":"Autonomie du Quotidien / Logistique","fmt":"long","enjeux":"Associer l'apprentissage rébarbatif à de la valorisation.","objs":["Maîtriser le fonctionnement de la buanderie","Associer obligation et créativité"],"steps":["Choix d'un vêtement à customiser.","Tri du linge et lancement d'une machine.","Atelier customisation pendant le cycle.","Extraction et pliage technique."],"nb":[3,8],"mat":["Vêtements à customiser","Lessive et machine à laver","Matériel de customisation"],"theme":["autonomie","creation"],"vig":"Prévoir le temps d'un cycle de lavage. Le vêtement choisi appartient au jeune.","age":"11-16 ans"},{"id":"chambre-feng-shui","title":"Chambre Feng-Shui","tag":"","time":"60 min","cat":"Autonomie / Structuration de l'Espace","fmt":"long","enjeux":"Structurer son espace physique pour structurer son mental.","objs":["Favoriser l'apaisement par l'ordre","Éviter le bras de fer autour du rangement"],"steps":["Analyse conjointe de la disposition de la chambre.","Tri, élimination et rangement compartimenté.","Création d'une brume d'ambiance.","Installation finale."],"nb":[1,2],"mat":["Sacs ou boîtes de rangement","Matériel pour la brume d'ambiance"],"theme":["autonomie"],"vig":"À faire avec l'accord du jeune, dans sa chambre. Ne pas juger l'état de départ et éviter le bras de fer.","age":"11-16 ans"},{"id":"bracelets-bresiliens-pro","title":"Bracelets Brésiliens Pro","tag":"","time":"50 min","cat":"Médiation Manuelle / Régulation Nerveuse","fmt":"long","enjeux":"La motricité répétitive calme l'anxiété profonde.","objs":["Canaliser le stress par le travail manuel","Discussion informelle sans regard frontal"],"steps":["Choix des fils et des couleurs.","Apprentissage technique du nœud.","Phase de tissage autonome.","Fixation finale au poignet."],"nb":[3,10],"mat":["Fils de couleurs","Ciseaux","Support pour fixer les fils"],"theme":["creation","regulation"],"vig":"Laisser des temps de silence : la discussion se fait côte à côte, sans regard frontal.","age":"11-16 ans"},{"id":"le-beret","title":"Le Béret","tag":"Nouveau","time":"20 min","cat":"Energizer / Stratégie & Fair-play","fmt":"express","enjeux":"Mobilise l'énergie physique dans un cadre à règles claires. Permet d'observer la gestion de la frustration, le respect des règles et l'esprit d'équipe.","objs":["Canaliser l'énergie dans un jeu à règles claires","Travailler le fair-play et la solidarité d'équipe"],"steps":["Deux équipes se placent face à face. Chaque joueur reçoit un numéro, le même numéro étant donné à un joueur de chaque équipe.","Un objet (foulard ou balle molle) est posé au centre.","L'éducateur annonce un numéro : les deux joueurs concernés courent prendre l'objet et le rapporter dans leur camp sans être touchés.","Un point par prise réussie. Les équipes peuvent se concerter pour inventer une ruse."],"nb":[8,24],"mat":["Un foulard ou une balle molle","Un espace dégagé"],"theme":["energie","lien"],"vig":"On touche l'épaule, jamais plus. Prévoir une consigne claire pour que la défaite ne soit pas vécue comme une humiliation.","age":"11-16 ans","draft":true},{"id":"le-n-ud-humain","title":"Le Nœud Humain","tag":"Nouveau","time":"15 min","cat":"Cohésion / Coopération & Contact","fmt":"express","enjeux":"Observe la capacité à coopérer en respectant les limites corporelles : prise de leadership, tolérance au contact, patience face à un problème commun.","objs":["Résoudre un problème en groupe sans chef désigné","Respecter les limites corporelles de chacun"],"steps":["Le groupe se place en cercle serré, chacun tend les mains au centre.","Chacun attrape deux mains appartenant à deux personnes différentes, pas celles de ses voisins directs.","Sans lâcher les mains, le groupe doit se démêler pour former un grand cercle.","En cas de gêne, on remplace la main par un foulard tenu à deux."],"nb":[6,12],"mat":["Un espace dégagé","Foulards (facultatif)"],"theme":["lien","regulation"],"vig":"Le contact des mains peut être difficile : proposer des foulards. Personne n'est forcé de participer, on peut aussi observer.","age":"11-16 ans","draft":true},{"id":"le-message-chuchote","title":"Le Message Chuchoté","tag":"Nouveau","time":"15 min","cat":"Brise-Glace / Écoute & Déformation","fmt":"express","enjeux":"Montre comment un message se transforme en passant de bouche en bouche. Utile pour parler de rumeur, d'écoute et de responsabilité dans la parole.","objs":["Prendre conscience de l'effet d'une rumeur","Développer l'écoute attentive"],"steps":["Le groupe se place en cercle ou en ligne.","L'éducateur chuchote une phrase au premier jeune, qui la chuchote au suivant, et ainsi de suite.","Le dernier dit la phrase à voix haute, on la compare à la phrase d'origine.","Court échange : où et pourquoi le message a-t-il changé ? Lien avec les rumeurs dans la vie du foyer."],"nb":[6,20],"mat":["Une phrase écrite à l'avance"],"theme":["critique","lien"],"vig":"Choisir une phrase neutre, jamais liée à un jeune du groupe. Ne pas chercher un coupable de la déformation.","age":"11-16 ans","draft":true},{"id":"le-compte-a-20","title":"Le Compte à 20","tag":"Nouveau","time":"15 min","cat":"Régulation / Attention & Retenue","fmt":"express","enjeux":"Éprouve l'autocontrôle et l'attention au groupe : il faut s'empêcher de parler en même temps que l'autre. Utile pour repérer l'impulsivité et la patience.","objs":["Développer l'écoute et l'attente de son tour","Accepter l'échec collectif et recommencer"],"steps":["Le groupe, debout en cercle, doit compter ensemble de 1 à 20.","Chacun dit un nombre quand il le sent, sans ordre ni signe convenu.","Si deux personnes parlent en même temps, on recommence à 1.","On tente de battre son meilleur score. Variante : seulement les nombres pairs."],"nb":[6,15],"mat":[],"theme":["regulation","lien"],"vig":"Valoriser les essais plutôt que le résultat. Arrêter le jeu si la frustration monte.","age":"11-16 ans","draft":true},{"id":"zip-zap-boing","title":"Zip Zap Boing","tag":"Nouveau","time":"15 min","cat":"Energizer / Réactivité & Attention","fmt":"express","enjeux":"Échauffement d'improvisation qui mobilise l'attention et la rapidité sans forte compétition. Permet d'observer la désinhibition et l'ambiance du groupe.","objs":["Stimuler la concentration et la rapidité","Se désinhiber par un jeu simple"],"steps":["Le groupe est en cercle. « Zip » : on envoie un geste de la main à son voisin.","« Zap » : on envoie le geste à un joueur éloigné en le désignant du regard.","« Boing » : on renvoie le geste à celui qui l'a envoyé.","Quand quelqu'un se trompe, on rit et on repart, sans élimination."],"nb":[8,16],"mat":[],"theme":["energie","expression"],"vig":"Pas d'élimination : une erreur est accueillie avec humour pour éviter les moqueries.","age":"11-16 ans","draft":true},{"id":"le-chef-d-orchestre","title":"Le Chef d'Orchestre","tag":"Nouveau","time":"20 min","cat":"Expression / Observation & Imitation","fmt":"express","enjeux":"Travaille l'observation fine et la discrétion : un jeune guide le groupe sans être repéré. Permet de voir qui prend la place de leader et qui reste en retrait.","objs":["Affiner l'observation et la synchronisation","Expérimenter les rôles de guide et de suiveur"],"steps":["Un volontaire sort de la pièce pendant que le groupe choisit un chef d'orchestre.","Le chef lance des mouvements (frapper, taper des pieds, balancer les bras) que tout le monde imite.","Le volontaire revient au centre et doit deviner qui mène.","On change de chef et de volontaire à chaque manche."],"nb":[8,20],"mat":[],"theme":["expression","lien"],"vig":"Laisser un jeune refuser de deviner ou de guider. Pas de comparaison entre les joueurs.","age":"11-16 ans","draft":true},{"id":"qui-suis-je","title":"Qui Suis-Je ?","tag":"Nouveau","time":"20 min","cat":"Brise-Glace / Questionnement & Humour","fmt":"express","enjeux":"Jeu de déduction avec des questions fermées. Permet d'observer l'aisance à questionner et la manière dont le groupe aide un pair.","objs":["Poser des questions fermées de façon structurée","Aider un pair sans lui donner la réponse"],"steps":["Chaque jeune reçoit dans le dos un papier avec un personnage, un métier ou un animal.","Il circule et pose aux autres des questions auxquelles on répond seulement par oui ou non.","Quand il a trouvé, il s'assoit.","Échange rapide : qui a eu du mal, et comment le groupe l'a-t-il aidé ?"],"nb":[6,20],"mat":["Papiers adhésifs","Stylos"],"theme":["expression","lien"],"vig":"Choisir des personnages neutres et non vexants.","age":"11-16 ans","draft":true},{"id":"les-mots-interdits","title":"Les Mots Interdits","tag":"Nouveau","time":"20 min","cat":"Expression / Vocabulaire & Contournement","fmt":"express","enjeux":"Travaille le vocabulaire et la reformulation sous contrainte. Permet d'observer la frustration et la coopération entre coéquipiers.","objs":["Enrichir le vocabulaire en reformulant","Coopérer dans une équipe sous contrainte de temps"],"steps":["Deux équipes. Chaque carte porte un mot à faire deviner et trois mots interdits.","Un joueur fait deviner le mot à son équipe sans utiliser les mots interdits.","Il a une minute ; chaque mot trouvé vaut un point.","L'équipe adverse vérifie qu'aucun mot interdit n'est prononcé."],"nb":[6,20],"mat":["Cartes de mots préparées à l'avance","Un chronomètre"],"theme":["expression","lien"],"vig":"Adapter le vocabulaire au niveau de lecture du groupe. Éviter les mots à connotation violente.","age":"11-16 ans","draft":true},{"id":"le-gel-musical","title":"Le Gel Musical","tag":"Nouveau","time":"15 min","cat":"Régulation / Inhibition Motrice & Plaisir","fmt":"express","enjeux":"Alterne mouvement et arrêt dans un cadre ludique. Travaille l'inhibition motrice et l'écoute d'un signal. Accessible pour un retour au calme progressif.","objs":["Développer l'inhibition motrice","Passer progressivement de l'excitation au calme"],"steps":["Une musique est lancée : tout le monde danse librement.","Quand la musique s'arrête, chacun se fige comme une statue.","L'éducateur donne parfois une consigne (statue joyeuse, statue fatiguée).","En fin de jeu, danser au ralenti pour terminer en douceur."],"nb":[6,25],"mat":["Enceinte et musique"],"theme":["regulation","energie"],"vig":"Vérifier que les musiques conviennent à tous. Ne pas éliminer les joueurs qui bougent.","age":"11-16 ans","draft":true},{"id":"les-chaises-cooperatives","title":"Les Chaises Coopératives","tag":"Nouveau","time":"20 min","cat":"Cohésion / Entraide & Solidarité","fmt":"express","enjeux":"Détourne les chaises musicales : personne n'est éliminé, le groupe doit trouver comment tenir sur de moins en moins de chaises. Travaille l'entraide et le contact accepté.","objs":["Expérimenter l'entraide plutôt que la compétition","Négocier le contact et l'espace avec les autres"],"steps":["Une chaise par joueur, placées en cercle. La musique démarre : on tourne autour des chaises.","À l'arrêt de la musique, chacun s'assoit ou s'appuie sur une chaise.","À chaque tour on retire une chaise, mais tout le monde doit rester sur une chaise (assis, debout sur le bord, appuyé).","Le jeu s'arrête quand le groupe ne peut plus tenir."],"nb":[8,16],"mat":["Chaises solides","Enceinte et musique"],"theme":["lien","energie"],"vig":"Poser des règles de contact : on demande avant, personne ne s'assoit sur quelqu'un. Prévoir une version sans contact en s'appuyant simplement sur le bord.","age":"11-16 ans","draft":true},{"id":"le-dessin-a-quatre-mains","title":"Le Dessin à Quatre Mains","tag":"Nouveau","time":"20 min","cat":"Expression / Coopération Silencieuse","fmt":"express","enjeux":"Deux jeunes dessinent ensemble sans parler : révèle la capacité à s'accorder, à céder et à prendre l'initiative.","objs":["Se coordonner sans parole","Accepter la proposition de l'autre"],"steps":["Les jeunes se mettent en binômes avec une grande feuille et un feutre chacun.","Consigne : dessiner un paysage sans parler.","Au bout de 8 minutes, chaque binôme donne un titre à son dessin.","Échange sur ce qui a été facile ou difficile."],"nb":[2,20],"mat":["Grandes feuilles","Crayons ou feutres"],"theme":["expression","lien"],"vig":"Former les binômes avec soin. Pas de jugement sur la qualité du dessin.","age":"11-16 ans","draft":true},{"id":"le-compliment-circulaire","title":"Le Compliment Circulaire","tag":"Nouveau","time":"20 min","cat":"Habiletés Sociales / Estime de Soi","fmt":"express","enjeux":"Apprend à donner et à recevoir un compliment sincère. Renforce l'estime de soi et le climat du groupe.","objs":["Exprimer une valorisation sincère","Apprendre à recevoir un compliment"],"steps":["Le groupe est en cercle, un objet de parole circule.","Chaque jeune adresse un compliment à son voisin de droite sur une qualité ou un fait de la semaine.","Le receveur répond simplement « merci ».","Si l'inspiration manque, l'éducateur propose des amorces (« Je t'ai trouvé... quand... »)."],"nb":[4,12],"mat":["Un objet de parole"],"theme":["lien","regulation"],"vig":"Interdire les compliments sur le physique. On peut passer son tour. Repérer les compliments ironiques.","age":"11-16 ans","draft":true},{"id":"la-meteo-interieure","title":"La Météo Intérieure","tag":"Nouveau","time":"15 min","cat":"Régulation / Identification des Émotions","fmt":"express","enjeux":"Rituel d'accueil pour nommer son état du jour avec une image simple. Aide les jeunes qui ont du mal à verbaliser leurs émotions.","objs":["Nommer son état émotionnel avec une image","Écouter les autres sans commenter"],"steps":["Chaque jeune choisit une carte météo (soleil, nuages, orage, pluie, arc-en-ciel).","À tour de rôle, il montre sa carte et dit pourquoi en une phrase, s'il le souhaite.","Le groupe écoute sans commenter.","L'éducateur note discrètement les « orages » pour y revenir en individuel."],"nb":[3,15],"mat":["Cartes météo (dessinées ou imprimées)"],"theme":["regulation","lien"],"vig":"Aucun jugement ni question de relance en groupe. La parole reste facultative.","age":"11-16 ans","draft":true},{"id":"le-thermometre-de-l-humeur","title":"Le Thermomètre de l'Humeur","tag":"Nouveau","time":"15 min","cat":"Régulation / Positionnement & Parole","fmt":"express","enjeux":"Permet de se situer physiquement sur une échelle et de faire émerger des ressentis sans avoir à les expliquer.","objs":["Situer son état ou son avis sur une échelle","Respecter la place choisie par l'autre"],"steps":["Une ligne au sol représente une échelle de 0 à 10 (de « pas du tout » à « tout à fait »).","L'éducateur énonce une affirmation (« Je me sens en forme aujourd'hui »).","Chaque jeune se place sur la ligne.","On invite deux ou trois jeunes à expliquer leur place, sans pression."],"nb":[4,20],"mat":["Ruban adhésif ou corde au sol"],"theme":["regulation","critique"],"vig":"Choisir des affirmations légères. Ne pas insister sur les jeunes qui préfèrent ne pas expliquer.","age":"11-16 ans","draft":true},{"id":"le-vent-souffle","title":"Le Vent Souffle","tag":"Nouveau","time":"15 min","cat":"Brise-Glace / Points Communs","fmt":"express","enjeux":"Fait émerger des points communs légers et rend visible l'appartenance au groupe.","objs":["Découvrir des points communs","Se mettre en mouvement dans un cadre simple"],"steps":["Cercle de chaises, un joueur au centre sans chaise.","Il dit « Le vent souffle sur ceux qui... » (portent des baskets, aiment le foot...).","Tous ceux qui sont concernés changent de chaise ; le joueur du centre prend une place.","Celui qui reste sans place dit la phrase suivante."],"nb":[8,20],"mat":["Chaises"],"theme":["lien","energie"],"vig":"Limiter les consignes aux goûts et aux objets visibles. Éviter les questions sur la famille ou la santé.","age":"11-16 ans","draft":true},{"id":"le-passe-clap","title":"Le Passe-Clap","tag":"Nouveau","time":"15 min","cat":"Energizer / Rythme & Attention","fmt":"express","enjeux":"Jeu de rythme simple pour réveiller l'attention du groupe et installer une ambiance positive.","objs":["Développer l'attention et le rythme","Se synchroniser avec le groupe"],"steps":["Le groupe est en cercle ; un clap est envoyé à son voisin en le regardant.","Un « Hop ! » renvoie le clap dans l'autre sens.","On ajoute un deuxième clap qui circule en sens inverse.","Le jeu s'accélère progressivement."],"nb":[6,20],"mat":[],"theme":["energie","regulation"],"vig":"Pas d'élimination : rire des erreurs ensemble.","age":"11-16 ans","draft":true},{"id":"la-respiration-du-ballon","title":"La Respiration du Ballon","tag":"Nouveau","time":"15 min","cat":"Régulation / Apaisement & Souffle","fmt":"express","enjeux":"Exercice simple de respiration pour redescendre après un moment d'agitation ou avant une activité calme.","objs":["Apprendre un outil de respiration","Repérer les sensations du corps au calme"],"steps":["Debout ou assis, les mains posées sur le ventre.","Inspirer par le nez en gonflant le ventre comme un ballon (4 secondes), souffler lentement par la bouche (6 secondes).","Répéter 5 à 8 fois, l'éducateur comptant au début.","Demander comment le corps se sent, sans obligation de répondre."],"nb":[1,20],"mat":[],"theme":["regulation"],"vig":"Un jeune mal à l'aise peut garder les yeux ouverts ou arrêter. Ce n'est pas un exercice médical.","age":"11-16 ans","draft":true},{"id":"le-ballon-qui-ne-tombe-pas","title":"Le Ballon Qui Ne Tombe Pas","tag":"Nouveau","time":"15 min","cat":"Cohésion / Coopération & Attention","fmt":"express","enjeux":"Défi collectif simple qui demande de se coordonner et d'encourager les autres.","objs":["Se coordonner pour atteindre un but commun","Encourager plutôt que critiquer"],"steps":["Un ballon de baudruche doit rester en l'air le plus longtemps possible.","Chacun peut le toucher mais jamais deux fois de suite.","On compte le nombre de touches collectives, puis on essaie de battre le record.","Variante : ajouter un second ballon ou jouer assis."],"nb":[5,20],"mat":["Ballons de baudruche"],"theme":["energie","lien"],"vig":"Vérifier les allergies au latex ou utiliser des ballons sans latex.","age":"11-16 ans","draft":true},{"id":"pierre-feuille-ciseaux-geant","title":"Pierre-Feuille-Ciseaux Géant","tag":"Nouveau","time":"15 min","cat":"Energizer / Défi & Soutien","fmt":"express","enjeux":"Tournoi collectif où les perdants deviennent supporters : limite la frustration de l'élimination et renforce l'esprit d'équipe.","objs":["Accepter la défaite dans un cadre sécurisant","Encourager les autres"],"steps":["Deux équipes se font face ; chaque joueur affronte un adversaire à pierre-feuille-ciseaux.","Le perdant se place derrière le gagnant et l'encourage.","On continue jusqu'à ce qu'il ne reste que deux « champions » soutenus chacun par une foule.","Final collectif : tout le monde applaudit le gagnant."],"nb":[8,24],"mat":[],"theme":["energie","lien"],"vig":"Rester attentif à la manière dont les perdants sont accueillis.","age":"11-16 ans","draft":true},{"id":"les-trois-mots","title":"Les Trois Mots","tag":"Nouveau","time":"20 min","cat":"Créativité / Narration & Imagination","fmt":"express","enjeux":"Stimule l'imagination et la coopération pour construire une histoire courte à partir de contraintes.","objs":["Inventer une histoire à partir de contraintes","Négocier les idées en équipe"],"steps":["Chaque jeune écrit un mot sur un papier ; les papiers sont mélangés.","Par équipes de trois, on tire trois mots.","L'équipe invente une mini-histoire (2 minutes) qui contient les trois mots.","Chaque équipe la raconte ou la joue devant le groupe."],"nb":[6,18],"mat":["Papiers","Stylos"],"theme":["expression","creation"],"vig":"Écarter les mots à connotation violente ou humiliante.","age":"11-16 ans","draft":true},{"id":"le-portrait-chinois","title":"Le Portrait Chinois","tag":"Nouveau","time":"20 min","cat":"Expression / Image de Soi & Humour","fmt":"express","enjeux":"Permet de parler de soi par détour, avec humour et sans exposition directe. Utile pour apprendre à se connaître et à connaître les autres.","objs":["Parler de soi par l'image","Découvrir les goûts et les valeurs des autres"],"steps":["L'éducateur propose des amorces (« Si j'étais un animal, je serais... », « Si j'étais une musique... »).","Chaque jeune complète à voix haute ou par écrit.","Version anonyme possible : le groupe devine qui parle.","Discussion libre sur ce qui a surpris."],"nb":[4,12],"mat":["Papiers et stylos (version écrite)"],"theme":["expression","lien"],"vig":"Garder l'anonymat possible pour les jeunes timides. Aucun commentaire négatif sur les réponses.","age":"11-16 ans","draft":true},{"id":"le-mime-en-chaine","title":"Le Mime en Chaîne","tag":"Nouveau","time":"15 min","cat":"Expression / Communication Non Verbale","fmt":"express","enjeux":"Met en évidence comment l'information se transforme quand on ne peut pas parler. Développe la lecture du corps.","objs":["Communiquer sans parole","Observer précisément les gestes de l'autre"],"steps":["Les jeunes se placent en ligne, dos tournés sauf le premier.","L'éducateur montre une scène simple (faire un gâteau) au premier, qui la mime au deuxième en tapotant son épaule, et ainsi de suite.","Le dernier dit ce qu'il a compris.","On compare avec la scène d'origine."],"nb":[5,15],"mat":[],"theme":["expression","critique"],"vig":"Choisir des scènes simples et neutres. Un simple tapotement d'épaule suffit : demander avant.","age":"11-16 ans","draft":true},{"id":"les-loups-garous","title":"Les Loups-Garous","tag":"Nouveau","time":"45 min","cat":"Cohésion / Déduction & Confiance","fmt":"long","enjeux":"Jeu de rôles caché qui révèle les dynamiques de confiance, de mensonge et de leadership. À encadrer : les accusations entre jeunes peuvent réactiver des tensions.","objs":["Argumenter pour convaincre ou se défendre","Repérer les mécanismes de confiance et de suspicion"],"steps":["Un meneur distribue secrètement des rôles (villageois, loups-garous, voyante) sur des papiers pliés.","La nuit, les loups choisissent une victime. Le jour, le village débat et vote pour éliminer un suspect.","Les joueurs éliminés deviennent observateurs.","En fin de partie, débrief sur la confiance, le mensonge et la manière de se défendre."],"nb":[8,20],"mat":["Papiers de rôles faits maison","Un meneur de jeu"],"theme":["critique","lien"],"vig":"Les accusations peuvent blesser : rappeler que c'est un jeu et faire un débrief obligatoire. Rester sur un décor simple, sans violence détaillée.","age":"12-16 ans","draft":true},{"id":"le-cluedo-grandeur-nature","title":"Le Cluedo Grandeur Nature","tag":"Nouveau","time":"60 min","cat":"Cohésion / Enquête & Raisonnement","fmt":"long","enjeux":"Mobilise le raisonnement collectif et la coopération autour d'une enquête fictive. Permet de repérer qui écoute, qui impose et qui se retire.","objs":["Raisonner à partir d'indices","Coopérer pour résoudre une énigme collective"],"steps":["Préparer un scénario simple (un objet disparu) avec 5 suspects, 5 lieux et 5 indices.","Les équipes explorent les salles et récupèrent des fiches indices.","Elles croisent les informations sur un tableau et formulent une accusation.","Révélation de la solution, puis débrief sur la manière de travailler ensemble."],"nb":[6,16],"mat":["Fiches indices imprimées","Tableau ou paperboard","Plusieurs pièces ou zones autorisées"],"theme":["critique","lien"],"vig":"Rester dans la fiction : ne jamais reprendre un vrai incident du foyer. Prévenir les adultes de la structure des zones utilisées.","age":"11-16 ans","draft":true},{"id":"l-escape-game-du-foyer","title":"L'Escape Game du Foyer","tag":"Nouveau","time":"60 min","cat":"Cohésion / Énigmes & Coopération","fmt":"long","enjeux":"Défi collectif sous contrainte de temps. Observe la répartition des rôles, la gestion du stress et la capacité à écouter les idées des autres.","objs":["Coopérer sous contrainte de temps","Répartir les rôles selon les forces de chacun"],"steps":["Installer 4 à 5 énigmes (cadenas à code, texte à décoder, puzzle).","Le groupe a 40 minutes pour trouver le code final.","L'éducateur peut donner deux indices au total, sur demande.","Débrief : qui a proposé, qui a écouté, comment le groupe a surmonté les blocages."],"nb":[4,12],"mat":["Cadenas à code ou boîtes à combinaison","Énigmes imprimées","Minuteur"],"theme":["critique","lien"],"vig":"Prévoir des énigmes variées pour que chacun puisse contribuer, y compris sans lecture complexe.","age":"11-16 ans","draft":true},{"id":"le-jeu-de-l-oie-des-emotions","title":"Le Jeu de l'Oie des Émotions","tag":"Nouveau","time":"45 min","cat":"Régulation / Expression des Émotions","fmt":"long","enjeux":"Permet de parler des émotions à travers un jeu de plateau grandeur nature. Le cadre ludique facilite la parole.","objs":["Nommer et reconnaître des émotions","Partager une situation ou une stratégie d'apaisement"],"steps":["Dessiner un grand plateau de jeu de l'oie au sol avec des cases émotions (joie, colère, peur, tristesse, surprise).","À chaque case, le joueur pioche une carte (situation, question, geste à mimer) et y répond.","Des cases « solidarité » permettent d'aider un autre joueur à avancer.","Le jeu se termine quand tout le groupe arrive à l'arrivée ; échange final."],"nb":[4,10],"mat":["Craie ou ruban adhésif","Un dé","Cartes situations préparées"],"theme":["regulation","expression"],"vig":"Les situations ne doivent pas toucher des vécus précis des jeunes. Chacun peut passer.","age":"11-16 ans","draft":true},{"id":"le-theatre-forum","title":"Le Théâtre-Forum","tag":"Nouveau","time":"60 min","cat":"Théâtre / Résolution de Conflits","fmt":"long","enjeux":"Permet de rejouer une situation de tension du quotidien et de tester d'autres réactions dans un cadre sécurisé.","objs":["Tester d'autres réactions face à un conflit","S'exprimer devant un groupe dans un cadre protégé"],"steps":["Les jeunes inventent une courte scène de conflit du quotidien (un jeu emprunté sans demander).","Un premier groupe la joue telle quelle.","On la rejoue : les spectateurs disent « Stop ! », remplacent un acteur et testent une autre réaction.","Synthèse des stratégies qui ont désamorcé la scène."],"nb":[8,16],"mat":[],"theme":["expression","critique","regulation"],"vig":"Rester sur des situations fictives. Ne pas rejouer un conflit réel entre deux jeunes. L'éducateur protège les acteurs en difficulté.","age":"12-16 ans","draft":true},{"id":"le-photolangage","title":"Le Photolangage","tag":"Nouveau","time":"45 min","cat":"Expression / Parole à Partir d'Images","fmt":"long","enjeux":"Utilise des images comme support de parole pour les jeunes qui ont du mal à exprimer ce qu'ils ressentent.","objs":["Verbaliser une idée ou un ressenti à partir d'une image","Écouter sans interpréter la parole de l'autre"],"steps":["Étaler au sol des images variées (photos, cartes, découpes de magazines).","Poser une question (« Une image qui représente comment je me sens en ce moment »).","Chacun choisit une image en silence.","À tour de rôle, ceux qui le souhaitent expliquent leur choix ; le groupe écoute sans commenter."],"nb":[4,12],"mat":["Images ou photos variées","Magazines (facultatif)"],"theme":["expression","regulation"],"vig":"Choisir une question centrée sur le présent, loin des souvenirs douloureux. Le silence est respecté. Pas d'interprétation du choix.","age":"11-16 ans","draft":true},{"id":"la-fresque-collective","title":"La Fresque Collective","tag":"Nouveau","time":"60 min","cat":"Atelier Créatif / Cohésion & Création","fmt":"long","enjeux":"Une œuvre commune où chacun a sa place. Observe la coopération et la gestion de l'espace partagé.","objs":["Créer une œuvre à plusieurs","Accepter de partager l'espace et le matériel"],"steps":["Choisir un thème (notre foyer, nos rêves) et un grand support (rouleau de papier).","Chaque jeune dessine sa partie, puis le groupe relie les éléments.","Ajouter des couleurs communes pour créer l'unité.","Exposer la fresque et lui donner un nom ensemble."],"nb":[4,14],"mat":["Grand rouleau de papier","Peinture ou feutres","Pinceaux"],"theme":["creation","lien"],"vig":"Protéger sols et vêtements. Pas de jugement sur le talent.","age":"11-16 ans","draft":true},{"id":"atelier-cuisine-le-menu-de-la-maison","title":"Atelier Cuisine : Le Menu de la Maison","tag":"Nouveau","time":"60 min","cat":"Autonomie / Cuisine & Organisation","fmt":"long","enjeux":"Apprentissage concret d'une recette en équipe. Travaille l'organisation, la patience et le plaisir de partager un repas.","objs":["Suivre une recette simple en autonomie","Partager les tâches et respecter l'hygiène"],"steps":["Choisir une recette simple en groupe.","Répartir les rôles : préparation, cuisson, dressage, vaisselle.","Réaliser la recette en respectant les consignes d'hygiène.","Partager le repas et évaluer ensemble (goût, organisation)."],"nb":[3,8],"mat":["Ingrédients de la recette","Ustensiles de cuisine","Tabliers"],"theme":["autonomie","creation"],"vig":"Vérifier les allergies et les régimes alimentaires. Encadrer l'usage des couteaux et des plaques de cuisson.","age":"11-16 ans","draft":true},{"id":"le-budget-du-mois-en-jeu","title":"Le Budget du Mois en Jeu","tag":"Nouveau","time":"50 min","cat":"Autonomie / Gestion & Choix","fmt":"long","enjeux":"Prépare à la gestion d'un budget réel à travers des choix concrets. Observe la gestion des priorités et de la frustration.","objs":["Établir un budget à partir de contraintes","Faire des choix entre besoins et envies"],"steps":["Chaque jeune reçoit un budget fictif et une liste de dépenses (loyer, transport, loisirs, imprévus).","Il établit son budget du mois et fait des choix.","Une carte « imprévu » est tirée : le groupe réagit.","On compare les stratégies et on discute des choix."],"nb":[3,10],"mat":["Faux billets ou fiches","Cartes imprévus","Calculatrices"],"theme":["autonomie","critique"],"vig":"Budget fictif uniquement : éviter de comparer avec la situation financière des familles.","age":"14-16 ans","draft":true},{"id":"l-entretien-d-embauche-en-jeu-de-role","title":"L'Entretien d'Embauche en Jeu de Rôle","tag":"Nouveau","time":"50 min","cat":"Autonomie / Projet Professionnel","fmt":"long","enjeux":"Prépare à un entretien de stage ou d'apprentissage dans un cadre sécurisé. Travaille la confiance en soi et la présentation de soi.","objs":["Se présenter et répondre à des questions","Recevoir un retour bienveillant"],"steps":["Préparer une fiche de poste simple (stage, apprentissage).","En trinômes : un candidat, un recruteur, un observateur.","Jouer l'entretien 7 minutes, puis retour bienveillant (ce qui a marché, une piste).","Inverser les rôles et faire un tour de table."],"nb":[3,12],"mat":["Fiches de poste fictives","Chaises"],"theme":["autonomie","expression"],"vig":"Retours strictement bienveillants. Les jeunes très anxieux peuvent commencer comme observateurs.","age":"14-16 ans","draft":true},{"id":"vrai-ou-faux-sur-les-reseaux","title":"Vrai ou Faux sur les Réseaux","tag":"Nouveau","time":"45 min","cat":"Médiation Média / Esprit Critique","fmt":"long","enjeux":"Développe un regard critique sur les informations en ligne et sur les contenus partagés.","objs":["Repérer les fausses informations","Adopter des réflexes de vérification"],"steps":["Préparer 8 à 10 contenus (rumeur, photo retouchée, fausse info).","Les équipes décident si chaque contenu est vrai ou faux et justifient.","Révéler la réponse et expliquer comment vérifier.","Dégager trois réflexes à retenir avant de partager."],"nb":[6,16],"mat":["Contenus imprimés","Tableau"],"theme":["critique"],"vig":"Choisir des contenus sans lien avec des jeunes du groupe, ni violents.","age":"12-16 ans","draft":true},{"id":"le-grand-quiz-maison","title":"Le Grand Quiz Maison","tag":"Nouveau","time":"45 min","cat":"Cohésion / Culture Générale & Équipe","fmt":"long","enjeux":"Quiz par équipes qui mélange les niveaux et valorise l'esprit d'équipe plutôt que le savoir scolaire.","objs":["Coopérer pour répondre","Accepter une erreur ou une défaite avec humour"],"steps":["Former trois ou quatre équipes aux noms inventés.","Poser cinq manches de questions (musique, sport, nature, vie du foyer).","Les équipes répondent sur une ardoise ou un papier ; on compte les points.","Remettre un « prix de l'esprit d'équipe » en plus du gagnant."],"nb":[8,20],"mat":["Ardoises ou papiers","Questions préparées","Feutres"],"theme":["lien","energie"],"vig":"Éviter les questions qui exposent des écarts scolaires ; mélanger les niveaux dans les équipes.","age":"11-16 ans","draft":true},{"id":"jeux-de-societe-cooperatifs","title":"Jeux de Société Coopératifs","tag":"Nouveau","time":"60 min","cat":"Cohésion / Coopération & Stratégie","fmt":"long","enjeux":"Dans un jeu coopératif, tout le groupe gagne ou perd ensemble. Observe la communication, la prise de décision et la gestion de l'échec.","objs":["Décider ensemble d'une stratégie","Accepter de perdre ou de réussir en équipe"],"steps":["Présenter deux ou trois jeux coopératifs.","Les jeunes choisissent ensemble et lisent les règles.","Jouer en équipe contre le jeu.","Discuter : comment a-t-on décidé, qui a proposé, qu'a-t-on appris ?"],"nb":[3,8],"mat":["Jeux de société coopératifs (par exemple L'Île interdite, Hanabi)"],"theme":["lien","critique"],"vig":"Choisir des jeux adaptés au niveau de lecture du groupe. Prévoir un temps pour expliquer les règles.","age":"11-16 ans","draft":true},{"id":"le-blind-test-musical","title":"Le Blind Test Musical","tag":"Nouveau","time":"45 min","cat":"Cohésion / Culture & Partage","fmt":"long","enjeux":"Partage de goûts musicaux dans un cadre festif. Permet de valoriser la culture des jeunes et de découvrir celle des autres.","objs":["Partager sa culture musicale","Respecter les goûts des autres"],"steps":["Préparer 15 extraits musicaux de styles variés.","Les équipes écrivent titre et artiste.","Correction et points.","Chaque équipe propose un titre pour la manche suivante."],"nb":[6,20],"mat":["Enceinte","Playlist préparée","Papiers et stylos"],"theme":["lien","energie"],"vig":"Vérifier les paroles : pas de chansons violentes ou discriminantes. Reconnaître la diversité des goûts.","age":"11-16 ans","draft":true},{"id":"les-olympiades-cooperatives","title":"Les Olympiades Coopératives","tag":"Nouveau","time":"60 min","cat":"Cohésion / Épreuves en Équipe","fmt":"long","enjeux":"Alterne épreuves physiques et d'adresse en équipes mixtes. Récompense l'effort collectif plutôt que le résultat.","objs":["Coopérer dans des épreuves variées","Valoriser l'effort collectif"],"steps":["Installer cinq ateliers (relais de balle, parcours d'obstacles, jeu de précision, énigme, jeu d'adresse).","Les équipes mixtes passent d'atelier en atelier toutes les 8 minutes.","Les points récompensent l'effort collectif et la bonne humeur.","Remise d'un prix de l'entraide."],"nb":[10,24],"mat":["Cônes","Balles","Cerceaux","Cordes"],"theme":["energie","lien"],"vig":"Vérifier l'état de santé des jeunes et prévoir de l'eau. Rester attentif aux contacts.","age":"11-16 ans","draft":true},{"id":"la-bourse-aux-talents","title":"La Bourse aux Talents","tag":"Nouveau","time":"45 min","cat":"Habiletés Sociales / Valorisation & Compétences","fmt":"long","enjeux":"Chacun découvre ce qu'il sait faire et le transmet aux autres. Renforce l'estime de soi et la reconnaissance entre pairs.","objs":["Identifier et valoriser ses compétences","Transmettre un savoir-faire à un pair"],"steps":["Chaque jeune liste trois choses qu'il sait faire, même très simples.","Au tableau, on regroupe les talents ; chacun choisit un talent à partager.","Mini-ateliers de 5 minutes où chacun montre son talent.","Tour de table : ce que j'ai appris de quelqu'un."],"nb":[5,12],"mat":["Papiers","Stylos","Tableau"],"theme":["lien","autonomie"],"vig":"Valoriser aussi les talents discrets. Aider les jeunes qui pensent n'en avoir aucun.","age":"11-16 ans","draft":true},{"id":"la-lettre-a-moi-meme","title":"La Lettre à Moi-Même","tag":"Nouveau","time":"45 min","cat":"Autonomie / Projection & Écriture","fmt":"long","enjeux":"Invite chaque jeune à se projeter dans l'avenir et à garder une trace de ses objectifs et de ses réussites.","objs":["Se projeter à moyen terme","Repérer ses réussites et ses objectifs"],"steps":["Chaque jeune écrit une lettre à lui-même, à ouvrir dans six mois ou un an.","Pistes : mes objectifs, ce dont je suis fier, un conseil pour plus tard.","La lettre est glissée dans une enveloppe fermée avec son nom.","L'éducateur garde les enveloppes dans un endroit sûr jusqu'à la date prévue."],"nb":[1,10],"mat":["Papier","Stylos","Enveloppes"],"theme":["autonomie","expression"],"vig":"Contenu privé : l'éducateur ne lit pas les lettres. Prévoir une autre option (dessin) pour les jeunes qui n'aiment pas écrire.","age":"13-16 ans","draft":true},{"id":"le-journal-du-foyer","title":"Le Journal du Foyer","tag":"Nouveau","time":"60 min","cat":"Expression Média / Écriture & Reportage","fmt":"long","enjeux":"Un projet collectif qui donne la parole aux jeunes et valorise leurs écrits. Travaille l'expression et l'organisation en équipe.","objs":["Rédiger un article ou une rubrique","Se répartir les rôles dans un projet commun"],"steps":["Choisir les rubriques (actualité du foyer, jeux, interview, horoscope).","Répartir les rôles : rédacteurs, illustrateurs, maquettistes.","Rédiger et mettre en page sur de grandes feuilles.","Présenter le numéro et décider où l'afficher."],"nb":[4,12],"mat":["Grandes feuilles","Feutres","Ciseaux et colle"],"theme":["expression","creation"],"vig":"Relire avant affichage : pas de noms de famille ni de moqueries.","age":"11-16 ans","draft":true},{"id":"la-maquette-du-foyer-ideal","title":"La Maquette du Foyer Idéal","tag":"Nouveau","time":"60 min","cat":"Créativité / Projection & Participation","fmt":"long","enjeux":"Les jeunes expriment ce qu'ils attendent d'un lieu de vie. Recueille des idées concrètes pour améliorer le quotidien.","objs":["Imaginer un lieu de vie idéal","Argumenter ses choix devant le groupe"],"steps":["Chaque équipe reçoit des cartons, du papier et des feutres.","Elle construit la maquette d'un lieu idéal (chambre, salle commune, jardin).","Présentation devant le groupe : pourquoi ces choix ?","Noter les idées réalisables et les transmettre à l'équipe éducative."],"nb":[4,12],"mat":["Cartons","Colle et ciseaux","Feutres et papier"],"theme":["creation","autonomie"],"vig":"Ne pas promettre la réalisation des idées avant de savoir ce qui est possible.","age":"11-16 ans","draft":true},{"id":"le-jeu-des-valeurs","title":"Le Jeu des Valeurs","tag":"Nouveau","time":"45 min","cat":"Débat / Valeurs & Positionnement","fmt":"long","enjeux":"Aide à identifier ce qui compte pour chacun et à découvrir les valeurs des autres.","objs":["Identifier ses valeurs","Argumenter son choix"],"steps":["Écrire dix valeurs (respect, liberté, loyauté, honnêteté...) sur des cartes.","Chaque jeune choisit les trois plus importantes pour lui.","Les jeunes se regroupent par valeur commune et expliquent leur choix.","Débat : une valeur peut-elle entrer en conflit avec une autre ?"],"nb":[5,14],"mat":["Cartes valeurs"],"theme":["critique","lien"],"vig":"Cadrer le débat : on parle des idées, pas des personnes.","age":"12-16 ans","draft":true},{"id":"le-conseil-des-delegues","title":"Le Conseil des Délégués","tag":"Nouveau","time":"50 min","cat":"Autonomie / Citoyenneté & Prise de Décision","fmt":"long","enjeux":"Simulation de réunion pour apprendre à décider ensemble. Permet d'observer le rapport à la règle et la capacité à écouter.","objs":["Mener une réunion avec un tour de parole","Voter et accepter la décision du groupe"],"steps":["Désigner deux ou trois délégués ou un animateur de séance.","Préparer trois sujets (planning, règles, projets).","Mener la réunion : tour de parole, propositions, vote.","Rédiger un court compte rendu et l'afficher."],"nb":[6,14],"mat":["Paperboard","Feutres","Une boîte pour voter"],"theme":["autonomie","critique"],"vig":"Choisir des sujets concrets et réalisables. Préciser ce qui est décidé et ce que l'équipe éducative tranchera.","age":"12-16 ans","draft":true},{"id":"l-atelier-slam","title":"L'Atelier Slam","tag":"Nouveau","time":"60 min","cat":"Expression / Écriture & Prise de Parole","fmt":"long","enjeux":"Valorise la prise de parole poétique et rythmée. Beaucoup de jeunes s'y reconnaissent, ce qui facilite l'engagement.","objs":["Écrire un court texte personnel","Dire un texte à voix haute devant le groupe"],"steps":["Jouer à des jeux d'écriture : liste de mots, rimes, images.","Chaque jeune écrit 8 à 12 lignes sur un thème choisi (mon quartier, ce que je veux changer).","Répéter à voix basse, puis en binôme.","Présentation volontaire devant le groupe, avec applaudissements systématiques."],"nb":[4,12],"mat":["Papier","Stylos","Enceinte (facultatif)"],"theme":["expression","creation"],"vig":"Préciser que les textes restent dans le groupe. Si un texte révèle une souffrance, proposer un échange individuel.","age":"12-16 ans","draft":true},{"id":"le-theatre-d-ombres","title":"Le Théâtre d'Ombres","tag":"Nouveau","time":"60 min","cat":"Atelier Créatif / Expression Corporelle","fmt":"long","enjeux":"Le drap et la lumière protègent du regard direct : un cadre rassurant pour s'exprimer par le corps et l'imaginaire.","objs":["Raconter une histoire en ombres","Coopérer pour une présentation commune"],"steps":["Tendre un drap blanc et placer une lampe derrière.","Les jeunes inventent une histoire courte et préparent des silhouettes ou des personnages découpés.","Répétition derrière le drap.","Présentation au groupe ou à d'autres jeunes."],"nb":[4,10],"mat":["Drap blanc","Lampe puissante","Carton noir et ciseaux"],"theme":["creation","expression"],"vig":"Attention à la chaleur de la lampe et aux câbles. Prévoir assez de place derrière le drap.","age":"11-16 ans","draft":true},{"id":"les-dilemmes-du-quotidien","title":"Les Dilemmes du Quotidien","tag":"Nouveau","time":"45 min","cat":"Débat / Raisonnement Moral","fmt":"long","enjeux":"Dilemmes de la vie quotidienne qui invitent à argumenter et à nuancer. Développe l'écoute et le raisonnement.","objs":["Argumenter une position face à un dilemme","Écouter et nuancer son avis"],"steps":["L'éducateur lit un dilemme (un ami te demande de mentir pour lui...).","Chaque jeune se place d'un côté de la salle selon son choix.","Les deux camps argumentent ; on peut changer de côté si on est convaincu.","Conclusion : chacun dit ce qu'il retient."],"nb":[6,16],"mat":["Fiches dilemmes"],"theme":["critique"],"vig":"Éviter les dilemmes proches d'événements récents du groupe. Poser le cadre : on débat des idées, pas des personnes.","age":"12-16 ans","draft":true},{"id":"ma-boite-a-apaisement","title":"Ma Boîte à Apaisement","tag":"Nouveau","time":"45 min","cat":"Régulation / Ressources Personnelles","fmt":"long","enjeux":"Chaque jeune se constitue une boîte d'objets qui l'aident à se calmer. Favorise l'autonomie dans la gestion des émotions.","objs":["Identifier ce qui m'apaise","Disposer d'une ressource personnelle accessible"],"steps":["Chaque jeune décore une boîte.","Il y place des objets qui l'aident à se calmer (balle anti-stress, musique, photo, mots écrits).","Possibilité d'échanger des idées avec les autres.","L'éducateur explique quand et comment utiliser la boîte."],"nb":[3,10],"mat":["Boîtes","Matériel de décoration","Objets sensoriels"],"theme":["regulation","creation"],"vig":"Aucun objet dangereux. Prévoir un lieu de rangement où la boîte reste accessible au jeune.","age":"11-16 ans","draft":true},{"id":"le-mandala-collectif","title":"Le Mandala Collectif","tag":"Nouveau","time":"45 min","cat":"Régulation / Apaisement & Création","fmt":"long","enjeux":"Activité calme et répétitive qui favorise la concentration et l'apaisement tout en créant une œuvre commune.","objs":["Se concentrer sur une tâche calme","Contribuer à une œuvre collective"],"steps":["Dessiner sur une grande feuille un cercle, puis le diviser en secteurs.","Chaque jeune remplit son secteur avec des motifs et des couleurs.","Assembler les parts au centre pour former un mandala.","Contempler en silence et choisir un nom collectif."],"nb":[4,12],"mat":["Grandes feuilles rondes","Crayons de couleur","Règle et compas (facultatif)"],"theme":["regulation","creation"],"vig":"Musique douce possible. Aucune comparaison de talents.","age":"11-16 ans","draft":true},{"id":"le-voyage-des-cinq-sens","title":"Le Voyage des Cinq Sens","tag":"Nouveau","time":"45 min","cat":"Régulation / Pleine Conscience & Sensations","fmt":"long","enjeux":"Parcours sensoriel pour ralentir et porter l'attention sur le moment présent. Utile après une période de tension.","objs":["Porter attention à ses sensations","Se détendre par l'exploration sensorielle"],"steps":["Installer cinq stations (odeurs, sons, textures, goûts, images).","Les jeunes passent de station en station, en silence ou à voix basse.","À chaque station, ils notent une sensation ou un souvenir.","Partage de ce qui était agréable ou surprenant."],"nb":[4,12],"mat":["Objets et aliments inoffensifs","Bandeaux (facultatif)"],"theme":["regulation","expression"],"vig":"Vérifier les allergies alimentaires. Éviter les odeurs fortes. Respecter les refus.","age":"11-16 ans","draft":true},{"id":"le-marche-solidaire","title":"Le Marché Solidaire","tag":"Nouveau","time":"50 min","cat":"Autonomie / Échange & Négociation","fmt":"long","enjeux":"Simulation d'un marché où l'on échange objets et services. Travaille la négociation respectueuse, la solidarité et le calcul.","objs":["Négocier de façon respectueuse","Découvrir des mécanismes d'échange et de solidarité"],"steps":["Chaque équipe reçoit des objets ou des services fictifs à vendre ou échanger.","Les jeunes circulent, négocient et concluent des échanges.","Un « tarif solidaire » est appliqué à certains objets.","Débrief : qui a gagné, qui a perdu, comment négocier avec respect."],"nb":[8,20],"mat":["Fausse monnaie","Objets divers","Étiquettes de prix"],"theme":["autonomie","lien"],"vig":"Rester dans la simulation : éviter de reproduire des situations de pauvreté réelles du groupe.","age":"11-16 ans","draft":true}];
+  var LS = 'besace-v1', LSI = 'besace-ideas-v1', LSN = 'besace-notes-v1';
+  var ICONS = {
+    bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    bag: '<path d="M6 8h12l1 12H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    cards: '<rect x="5" y="3.5" width="14" height="17" rx="3"/><path d="M9 8h6M9 12h4"/>',
+    pen: '<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z"/><path d="M14 7l3 3"/>',
+    eyeoff: '<path d="M3 3l18 18"/><path d="M10.6 6.2A9.6 9.6 0 0 1 12 6c5 0 8.5 4 9.5 6a14 14 0 0 1-2.7 3.5M6.5 7.6A14 14 0 0 0 2.5 12c1 2 4.5 6 9.5 6 1.4 0 2.7-.3 3.8-.8"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+    shield: '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+    up: '<path d="M6 15l6-6 6 6"/>',
+    down: '<path d="M6 9l6 6 6-6"/>',
+    list: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>'
+  };
+  function icon(name, size) {
+    var t = document.createElement('template');
+    t.innerHTML = '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + ICONS[name] + '</svg>';
+    return t.content.firstChild;
+  }
+  function $(s, r) { return (r || document).querySelector(s); }
+  function h(tag, props) {
+    var e = document.createElement(tag);
+    props = props || {};
+    Object.keys(props).forEach(function (k) {
+      var v = props[k];
+      if (v === false || v == null) return;
+      if (k === 'class') e.className = v;
+      else if (k === 'text') e.textContent = v;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v);
+      else e.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (Array.isArray(c)) c.forEach(function (x) { if (x) e.append(x); });
+      else if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c));
+    }
+    return e;
+  }
+  document.querySelectorAll('[data-icon]').forEach(function (el) {
+    el.prepend(icon(el.dataset.icon, +el.dataset.size || 22));
+  });
+
+  /* Illustrations : motifs dessinés à la main (traits), combinés selon l'activité */
+  var MOT = (function () {
+    function P(x, y, s) { return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><circle class="w" cy="-14" r="8"/><path class="w" d="M-15 24c0-15 6-23 15-23s15 8 15 23z"/></g>'; }
+    var m = {};
+    m.person = P(0, 0, 1.15);
+    m.duo = P(-14, 2, .8) + P(14, 2, .8);
+    m.people = (function () { var s = ''; for (var i = 0; i < 5; i++) { var a = -Math.PI / 2 + i * 2 * Math.PI / 5; s += P(Math.round(Math.cos(a) * 22), Math.round(Math.sin(a) * 18 + 2), .42); } return s; })();
+    m.ball = '<circle class="w" r="21"/><path class="s" d="M-21 0q21-9 42 0M0 -21q-9 21 0 42M-15 -15q8 6 8 15M15 15q-8-6-8-15"/>';
+    m.chair = '<path class="w" d="M-12 -26h22v30h-22z"/><path class="s" d="M-16 4h30M-12 4v22M10 4v22"/>';
+    m.bubble = '<path class="w" d="M-27 -20h54v32h-30l-12 11v-11h-12z"/><path class="s" d="M-17 -9h34M-17 1h20"/>';
+    m.heart = '<path class="w" d="M0 22C-30 2-22-20-8-19c5 0 8 4 8 8 0-4 3-8 8-8 14-1 22 17-8 41z"/>';
+    m.bulb = '<circle class="w" cy="-8" r="16"/><path class="s" d="M-6 9v9h12V9M-4 24h8M-6 -10l4 8 4-8"/>';
+    m.palette = '<path class="w" d="M-27 2c0-16 12-26 28-26 15 0 26 9 24 19-2 9-12 5-14 11-2 9-14 14-24 8-8-4-14-8-14-12z"/><circle class="d" cx="-9" cy="-9" r="3.5"/><circle class="d" cx="5" cy="-13" r="3.5"/><circle class="d" cx="16" cy="-4" r="3.5"/><circle class="d" cx="-14" cy="6" r="3.5"/>';
+    m.paint = '<path class="w" d="M-26 24c9-2 13-8 11-15l8-8 15 15-8 8c-7-2-12 2-14 11z"/><path class="s" d="M0 -4l24-24"/>';
+    m.note = '<path class="s" d="M-6 18V-22l24-7v38"/><circle class="w" cx="-13" cy="18" r="8"/><circle class="w" cx="11" cy="12" r="8"/>';
+    m.clock = '<circle class="w" r="25"/><path class="s" d="M0 -13V0l11 7M0 -22v3M22 0h-3M0 22v-3M-22 0h3"/>';
+    m.book = '<path class="w" d="M-28 -18h25v36h-25zM3 -18h25v36H3z"/><path class="s" d="M-22 -8h13M-22 2h13M9 -8h13M9 2h13"/>';
+    m.mask = '<path class="w" d="M-25 -20h50v19c0 17-11 27-25 27S-25 16-25 -1z"/><path class="s" d="M-16 -5q4-5 9 0M7 -5q4-5 9 0M-11 9q11 9 22 0"/>';
+    m.magnifier = '<circle class="w" cx="-6" cy="-6" r="18"/><path class="s" d="M8 8l17 17"/>';
+    m.key = '<circle class="w" cx="-15" cy="0" r="11"/><path class="s" d="M-4 0h32M20 0v11M28 0v8"/>';
+    m.coins = '<ellipse class="w" cy="12" rx="21" ry="9"/><ellipse class="w" cy="1" rx="21" ry="9"/><ellipse class="w" cy="-10" rx="21" ry="9"/>';
+    m.envelope = '<rect class="w" x="-27" y="-17" width="54" height="36" rx="5"/><path class="s" d="M-27 -14l27 21 27-21"/>';
+    m.mic = '<rect class="w" x="-9" y="-28" width="18" height="32" rx="9"/><path class="s" d="M-17 -4a17 17 0 0 0 34 0M0 13v13M-9 26h18"/>';
+    m.film = '<rect class="w" x="-27" y="-19" width="54" height="38" rx="6"/><path class="s" d="M-8 -9l17 9-17 9z"/>';
+    m.pot = '<path class="w" d="M-23 -4h46v14a13 13 0 0 1-13 13h-20a13 13 0 0 1-13-13z"/><path class="s" d="M-29 -4h58M-8 -14q5-6 0-13M8 -14q5-6 0-13"/>';
+    m.balloon = '<ellipse class="w" cy="-8" rx="16" ry="20"/><path class="s" d="M0 12l-3 6h6zM0 18q-7 7 0 15"/>';
+    m.star = '<path class="w" d="M0 -25l7 15 17 2-12 12 3 17-15-8-15 8 3-17-12-12 17-2z"/>';
+    m.sun = '<circle class="w" r="12"/><path class="s" d="M0 -23v-6M0 23v6M-23 0h-6M23 0h6M-16 -16l-4-4M16 16l4 4M16 -16l4-4M-16 16l-4 4"/>';
+    m.weather = '<g transform="translate(10 -12) scale(.62)">' + '<circle class="w" r="12"/><path class="s" d="M0 -23v-6M-23 0h-6M23 0h6M-16 -16l-4-4M16 -16l4-4"/></g><path class="w" d="M-24 20a10 10 0 0 1 0-20 14 14 0 0 1 27-4 12 12 0 0 1 7 24z"/>';
+    m.wind = '<path class="s" d="M-29 -11h34a8 8 0 1 0-8-8M-29 2h47a8 8 0 1 1-8 8M-29 15h22"/>';
+    m.tree = '<path class="s" d="M0 27V6M0 14l-9-9M0 10l8-7"/><circle class="w" cy="-9" r="19"/><circle class="f" cx="-5" cy="-13" r="6"/>';
+    m.eye = '<path class="w" d="M-29 0q29-31 58 0q-29 31-58 0z"/><circle class="d" r="9"/><circle cx="3" cy="-3" r="2.5" fill="var(--surface)"/>';
+    m.puzzle = '<path class="w" d="M-23 -23h14a7 7 0 1 1 14 0h14v14a7 7 0 1 0 0 14v14h-42z"/>';
+    m.dice = '<rect class="w" x="-21" y="-21" width="42" height="42" rx="9"/><circle class="d" cx="-9" cy="-9" r="3.5"/><circle class="d" r="3.5"/><circle class="d" cx="9" cy="9" r="3.5"/><circle class="d" cx="9" cy="-9" r="3.5"/><circle class="d" cx="-9" cy="9" r="3.5"/>';
+    m.scale = '<path class="s" d="M0 -25v47M-13 24h26M-27 -14h54M-27 -14l-9 20h18zM27 -14l-9 20h18z"/>';
+    m.pin = '<path class="w" d="M0 27C-14 11-21 3-21 -8a21 21 0 0 1 42 0c0 11-7 19-21 35z"/><circle class="d" cy="-8" r="6.5"/>';
+    m.compass = '<circle class="w" r="25"/><path class="w" d="M11 -11L4 4-11 11-4-4z"/><circle class="d" r="2.5"/>';
+    m.box = '<path class="w" d="M-25 -8h50v32h-50z"/><path class="w" d="M-29 -21h58v13h-58z"/><path class="s" d="M-7 0h14"/>';
+    m.scissors = '<circle class="w" cx="-14" cy="15" r="8"/><circle class="w" cx="14" cy="15" r="8"/><path class="s" d="M-9 9L14 -27M9 9L-14 -27"/>';
+    m.phone = '<rect class="w" x="-15" y="-28" width="30" height="56" rx="8"/><path class="s" d="M-4 21h8M-5 -8l11 6-11 6z"/>';
+    m.news = '<rect class="w" x="-28" y="-23" width="56" height="46" rx="5"/><path class="s" d="M-20 -13h40M-20 -3h17M-20 7h17M5 -3h15v14H5z"/>';
+    m.shadow = '<rect class="w" x="-28" y="-24" width="56" height="48" rx="4"/><circle class="d" cx="-6" cy="-6" r="7"/><path class="d" d="M-18 20c0-11 5-17 12-17s12 6 12 17z"/><path class="s" d="M14 -14l8 4M14 -4l9 0"/>';
+    m.bracelet = '<circle class="w" r="24"/><circle class="w" r="13"/><path class="s" d="M-24 0h11M13 0h11M0 -24v11M0 13v11"/>';
+    m.shirt = '<path class="w" d="M-13 -25l-17 11 7 11 7-4v28h34v-28l7 4 7-11-17-11q-4 8-11 8t-11-8z"/>';
+    m.house = '<path class="w" d="M-27 -2l27-25 27 25v28h-54z"/><path class="s" d="M-7 26V10h14v16"/>';
+    m.trophy = '<path class="w" d="M-15 -26h30v15a15 15 0 0 1-30 0z"/><path class="s" d="M-15 -21h-10a9 9 0 0 0 11 13M15 -21h10a9 9 0 0 1-11 13M0 4v14M-11 26h22"/>';
+    m.timeline = '<path class="s" d="M-29 0h56M19 -9l9 9-9 9"/><circle class="w" cx="-19" cy="0" r="6"/><circle class="w" cx="-3" cy="0" r="6"/><circle class="w" cx="13" cy="0" r="6"/>';
+    m.question = '<path class="s" stroke-width="4.5" d="M-11 -14a11 11 0 1 1 15 10c-5 3-5 6-5 10"/><circle class="d" cy="21" r="3"/>';
+    m.lips = '<path class="w" d="M-26 0q13-14 26-8 13-6 26 8-13 17-26 17T-26 0z"/><path class="s" d="M-26 0h52"/>';
+    m.flag = '<path class="s" d="M-17 27V-27"/><path class="w" d="M-17 -27h36l-9 11 9 11h-36z"/>';
+    m.pen = '<path class="w" d="M-24 24l4-15L10 -21l11 11-30 30z"/><path class="s" d="M4 -15l11 11"/>';
+    m.knot = '<path class="s" d="M-28 -9c10-15 20 15 30 0s20-13 26 0M-28 9c10-15 20 15 30 0s20-13 26 0"/>';
+    m.camera = '<rect class="w" x="-28" y="-15" width="56" height="38" rx="7"/><circle class="w" cy="4" r="12"/><path class="s" d="M-10 -15l4-9h12l4 9"/>';
+    m.mandala = '<circle class="w" r="25"/><circle class="w" r="14"/><path class="s" d="M0 -25v50M-25 0h50M-18 -18l36 36M18 -18l-36 36"/><circle class="d" r="3.5"/>';
+    m.flower = (function () { var s = ''; for (var i = 0; i < 5; i++) { var a = i * 2 * Math.PI / 5; s += '<circle class="w" cx="' + Math.round(Math.cos(a) * 14) + '" cy="' + Math.round(Math.sin(a) * 14 - 6) + '" r="9"/>'; } return s + '<circle class="d" cy="-6" r="6"/><path class="s" d="M0 8v19M0 20l-9-5"/>'; })();
+    m.wifi = '<path class="s" d="M-26 -5a36 36 0 0 1 52 0M-17 6a23 23 0 0 1 34 0M-8 16a10 10 0 0 1 16 0"/><circle class="d" cy="25" r="3.5"/>';
+    m.checklist = '<rect class="w" x="-21" y="-27" width="42" height="54" rx="6"/><path class="s" d="M-12 -12l4 4 8-9M-12 7l4 4 8-9M3 -11h11M3 8h11"/>';
+    m.bolt = '<path class="w" d="M7 -29l-24 32h15l-7 27 26-36H2z"/>';
+    m.moon = '<path class="w" d="M8 -27A25 25 0 1 0 25 14 21 21 0 0 1 8 -27z"/><circle class="d" cx="14" cy="-8" r="2"/><circle class="d" cx="19" cy="4" r="1.6"/>';
+    m.wave = '<path class="s" d="M-29 -12q7-8 14 0t14 0 14 0 15 0M-29 3q7-8 14 0t14 0 14 0 15 0M-29 18q7-8 14 0t14 0 14 0 15 0"/>';
+    m.thermo = '<rect class="w" x="-7" y="-28" width="14" height="40" rx="7"/><circle class="w" cy="18" r="11"/><path class="s" d="M0 -12v30"/>';
+    m.cloud = '<path class="w" d="M-24 14a10 10 0 0 1 0-20 14 14 0 0 1 27-4 12 12 0 0 1 7 24z"/><path class="s" d="M-10 22l-3 7M2 22l-3 7M14 22l-3 7"/>';
+    return m;
+  })();
+  var ILL_MAP = {
+    'le-jeu-du-moustique': ['people', 'bolt'], 'le-jeu-de-la-maison': ['house', 'people'], '3-mensonges-et-1-verite': ['question', 'mask'],
+    'la-balle-imaginaire': ['ball', 'people'], 'la-sculpture-invisible': ['duo', 'star'], 'le-pan-lapin': ['bolt', 'duo'],
+    'la-maladie-contagieuse': ['eye', 'people'], 'i-am-a-tree': ['tree', 'wind'], 'le-chrono-prenoms': ['clock', 'bubble'],
+    'le-defi-miroir': ['duo', 'eye'], 'le-cercle-de-confiance': ['people', 'heart'], 'cine-debat-institutionnel': ['film', 'bubble'],
+    'diy-l-atelier-upcycling-customisation': ['scissors', 'shirt'], 'le-proces-de-la-chaise': ['scale', 'chair'], 'l-ile-deserte-collective': ['tree', 'compass'],
+    'l-improvisation-cascade': ['mask', 'bolt'], 'la-cartographie-humaine': ['pin', 'people'], 'le-doublage-de-l-ombre': ['shadow', 'mic'],
+    'l-objet-mystere-conte': ['box', 'book'], 'le-guide-aveugle': ['duo', 'compass'], 'la-ligne-du-temps-reelle': ['timeline', 'clock'],
+    'la-radio-du-foyer': ['mic', 'note'], 'l-histoire-sans-fin': ['book', 'pen'], 'le-tribunal-des-cliches': ['scale', 'bubble'],
+    'les-statues-de-l-emotion': ['person', 'heart'], 'le-conseil-des-sages': ['people', 'bulb'], 'l-interview-inversee': ['mic', 'duo'],
+    'le-parcours-d-orientation-interne': ['compass', 'pin'], 'la-riviere-du-doute': ['wave', 'question'], 'script-tiktok-reel': ['phone', 'film'],
+    'my-self-care-box': ['box', 'heart'], 'dressing-custom-linge': ['shirt', 'scissors'], 'chambre-feng-shui': ['house', 'flower'],
+    'bracelets-bresiliens-pro': ['bracelet', 'star'], 'le-beret': ['flag', 'people'], 'le-n-ud-humain': ['knot', 'people'],
+    'le-message-chuchote': ['bubble', 'duo'], 'le-compte-a-20': ['people', 'clock'], 'zip-zap-boing': ['bolt', 'ball'],
+    'le-chef-d-orchestre': ['note', 'person'], 'qui-suis-je': ['question', 'person'], 'les-mots-interdits': ['bubble', 'lips'],
+    'le-gel-musical': ['note', 'star'], 'les-chaises-cooperatives': ['chair', 'heart'], 'le-dessin-a-quatre-mains': ['pen', 'duo'],
+    'le-compliment-circulaire': ['heart', 'people'], 'la-meteo-interieure': ['weather', 'heart'], 'le-thermometre-de-l-humeur': ['thermo', 'sun'],
+    'le-vent-souffle': ['wind', 'chair'], 'le-passe-clap': ['people', 'note'], 'la-respiration-du-ballon': ['balloon', 'wind'],
+    'le-ballon-qui-ne-tombe-pas': ['balloon', 'people'], 'pierre-feuille-ciseaux-geant': ['scissors', 'trophy'], 'les-trois-mots': ['pen', 'bubble'],
+    'le-portrait-chinois': ['person', 'question'], 'le-mime-en-chaine': ['mask', 'people'], 'les-loups-garous': ['moon', 'eye'],
+    'le-cluedo-grandeur-nature': ['magnifier', 'key'], 'l-escape-game-du-foyer': ['key', 'clock'], 'le-jeu-de-l-oie-des-emotions': ['dice', 'heart'],
+    'le-theatre-forum': ['mask', 'bubble'], 'le-photolangage': ['camera', 'bubble'], 'la-fresque-collective': ['paint', 'people'],
+    'atelier-cuisine-le-menu-de-la-maison': ['pot', 'star'], 'le-budget-du-mois-en-jeu': ['coins', 'checklist'], 'l-entretien-d-embauche-en-jeu-de-role': ['duo', 'envelope'],
+    'vrai-ou-faux-sur-les-reseaux': ['wifi', 'magnifier'], 'le-grand-quiz-maison': ['question', 'trophy'], 'jeux-de-societe-cooperatifs': ['puzzle', 'dice'],
+    'le-blind-test-musical': ['note', 'mic'], 'les-olympiades-cooperatives': ['trophy', 'people'], 'la-bourse-aux-talents': ['star', 'people'],
+    'la-lettre-a-moi-meme': ['envelope', 'heart'], 'le-journal-du-foyer': ['news', 'pen'], 'la-maquette-du-foyer-ideal': ['house', 'box'],
+    'le-jeu-des-valeurs': ['heart', 'scale'], 'le-conseil-des-delegues': ['people', 'checklist'], 'l-atelier-slam': ['mic', 'pen'],
+    'le-theatre-d-ombres': ['shadow', 'star'], 'les-dilemmes-du-quotidien': ['scale', 'question'], 'ma-boite-a-apaisement': ['box', 'wind'],
+    'le-mandala-collectif': ['mandala', 'palette'], 'le-voyage-des-cinq-sens': ['flower', 'eye'], 'le-marche-solidaire': ['coins', 'people']
+  };
+  var ILL_THEME = { energie: ['bolt', 'ball'], lien: ['people', 'heart'], expression: ['mask', 'bubble'], regulation: ['wind', 'heart'], critique: ['scale', 'question'], autonomie: ['compass', 'checklist'], creation: ['paint', 'palette'] };
+  function hashN(s) { var n = 7; for (var i = 0; i < s.length; i++) n = (n * 31 + s.charCodeAt(i)) % 9973; return n; }
+  function illus(a) {
+    var pair = ILL_MAP[a.id] || ILL_THEME[(a.theme && a.theme[0]) || 'creation'] || ILL_THEME.creation;
+    var n = hashN(a.id || a.title || ''), dx = (n % 7) - 3, k = [[22, 20], [138, 18], [30, 84], [142, 82]];
+    var dots = '';
+    for (var i = 0; i < 4; i++) dots += '<circle class="' + ((n >> i) & 1 ? 'd' : 'f') + '" cx="' + (k[i][0] + dx) + '" cy="' + k[i][1] + '" r="' + (i % 2 ? 3 : 4.5) + '"/>';
+    var svg = '<svg class="ill" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><ellipse cx="' + (80 + dx) + '" cy="52" rx="70" ry="44" fill="var(--glass)"/>' + dots +
+      '<g transform="translate(' + (66 + dx) + ' 50) scale(1.5)">' + MOT[pair[0]] + '</g><g transform="translate(' + (122 + dx) + ' 68) scale(.85)">' + MOT[pair[1]] + '</g></svg>';
+    var t = document.createElement('template'); t.innerHTML = svg; return t.content.firstChild;
+  }
+
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FM = { express: 'Flash', long: 'Séquence de fond', all: 'Tout' };
+  var THEMES = [
+    ['energie', 'Énergie et réveil'], ['lien', 'Lien et confiance'], ['expression', 'Expression et théâtre'],
+    ['regulation', 'Régulation et émotions'], ['critique', 'Esprit critique et débat'], ['autonomie', 'Autonomie'], ['creation', 'Création et manuel']
+  ];
+  var CAT_THEME = {
+    'Habiletés Sociales / Climat Institutionnel': 'lien',
+    'Médiation Manuelle & Expression': 'creation',
+    'Expression Média / Débats': 'critique',
+    'Autonomie du quotidien / Hygiène': 'autonomie'
+  };
+  var FAM_THEME = { 'Cohésion': 'lien', 'Expression': 'expression', 'Régulation': 'regulation', 'Débat': 'critique', 'Autonomie': 'autonomie', 'Atelier Créatif': 'creation', 'Energizer': 'energie' };
+  function themeOf(cat) { return CAT_THEME[cat] || FAM_THEME[String(cat).split(' / ')[0]] || 'creation'; }
+
+  /* État : seuls des identifiants de cartes sont gardés sur cet appareil, jamais de texte clinique. */
+  var S = { fmt: 'express', favs: [], passed: [], seance: [] };
+  var F = { q: '', theme: '', n: '', max: '' };
+  var LOCAL = [], SHARED = [];
+  function strs(a) { return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }) : []; }
+  try {
+    var j = JSON.parse(localStorage.getItem(LS) || 'null');
+    if (j) {
+      if (j.fmt === 'express' || j.fmt === 'long' || j.fmt === 'all') S.fmt = j.fmt;
+      S.favs = strs(j.favs); S.passed = strs(j.passed); S.seance = strs(j.seance);
+    }
+    var ji = JSON.parse(localStorage.getItem(LSI) || '[]');
+    if (Array.isArray(ji)) LOCAL = ji.filter(function (a) {
+      return a && typeof a.id === 'string' && typeof a.title === 'string' && (a.fmt === 'express' || a.fmt === 'long') && Array.isArray(a.objs) && Array.isArray(a.steps);
+    }).map(function (a) { a.theme = a.theme || [themeOf(a.cat)]; return a; });
+  } catch (e) {}
+  var NOTES = [];
+  try {
+    var jn = JSON.parse(localStorage.getItem(LSN) || '[]');
+    if (Array.isArray(jn)) NOTES = jn.filter(function (n) { return n && typeof n.id === 'string' && typeof n.text === 'string'; });
+  } catch (e) {}
+  function saveNotes() { try { localStorage.setItem(LSN, JSON.stringify(NOTES)); return true; } catch (e) { return false; } }
+  function save() { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
+  function saveLocal() { try { localStorage.setItem(LSI, JSON.stringify(LOCAL)); } catch (e) {} }
+  function all() { return SHARED.concat(LOCAL, BASE); }
+  function byId(id) { return all().filter(function (a) { return a.id === id; })[0]; }
+  function split(cat) { var p = String(cat).split(' / '); return { fam: p[0], skill: p.slice(1).join(' / ') }; }
+  function plural(n, s, p) { return n + ' ' + (n > 1 ? p : s); }
+  function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function minutes(a) { return parseInt(a.time, 10) || 0; }
+  function fmtDur(m) { if (m < 60) return m + ' min'; var hh = Math.floor(m / 60), r = m % 60; return hh + ' h' + (r ? ' ' + (r < 10 ? '0' : '') + r : ''); }
+  function groupText(a) {
+    if (!a.nb) return '';
+    var lo = a.nb[0], hi = a.nb[1];
+    if (lo === 1 && hi === 1) return 'Individuel';
+    return lo + ' à ' + hi + ' jeunes';
+  }
+  function slug(s) { return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'document'; }
+
+  /* Capacités de la page : téléchargement, profil, base partagée. Chacune peut être absente. */
+  var DL = null, DB = null, UID = null, CAN_EDIT = false;
+
+  /* Toast */
+  var tt;
+  function toast(msg, undo) {
+    var el = $('#toast');
+    el.replaceChildren(h('span', { text: msg }));
+    if (undo) el.append(h('button', { type: 'button', text: 'Annuler', onclick: function () { clearTimeout(tt); el.hidden = true; undo(); } }));
+    el.hidden = false;
+    clearTimeout(tt);
+    tt = setTimeout(function () { el.hidden = true; }, undo ? 6000 : 3500);
+  }
+
+  /* Navigation */
+  var TABS = ['cartes', 'besace', 'seance', 'idees', 'note'];
+  function go(n) {
+    if (TABS.indexOf(n) < 0) n = 'cartes';
+    TABS.forEach(function (k) { $('#s-' + k).hidden = k !== n; });
+    document.querySelectorAll('.tab').forEach(function (t) {
+      if (t.dataset.tab === n) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current');
+    });
+    try { history.replaceState(null, '', '#' + n); } catch (e) { try { location.hash = n; } catch (e2) {} }
+    if (n === 'besace') renderBesace();
+    if (n === 'cartes') renderDeck();
+    if (n === 'seance') renderSeance();
+    if (n === 'idees') renderIdees();
+    if (n === 'note') renderNotes();
+    $('#s-' + n).scrollTop = 0;
+  }
+  document.querySelectorAll('.tab').forEach(function (t) { t.addEventListener('click', function () { go(t.dataset.tab); }); });
+  window.addEventListener('hashchange', function () { go(location.hash.slice(1)); });
+
+  /* Fenêtres */
+  function openDlg(d) { if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', ''); }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-close]');
+    if (b) { b.closest('dialog').close(); return; }
+    if (e.target.tagName === 'DIALOG' && e.target.classList.contains('sheet')) e.target.close();
+  });
+
+  /* Filtres */
+  function filtersActive() { return !!(F.theme || F.n !== '' || F.max); }
+  function anyActive() { return filtersActive() || !!F.q; }
+  function matches(a) {
+    if (S.fmt !== 'all' && a.fmt !== S.fmt) return false;
+    if (F.theme && !(a.theme && a.theme.indexOf(F.theme) >= 0)) return false;
+    if (F.n !== '' && a.nb && (+F.n < a.nb[0] || +F.n > a.nb[1])) return false;
+    if (F.max && minutes(a) > +F.max) return false;
+    if (F.q) {
+      var hay = norm([a.title, a.cat, a.enjeux, (a.objs || []).join(' '), (a.mat || []).join(' '), a.tag || ''].join(' '));
+      var ws = norm(F.q).split(/\s+/).filter(Boolean);
+      for (var i = 0; i < ws.length; i++) if (hay.indexOf(ws[i]) < 0) return false;
+    }
+    return true;
+  }
+  function syncFilterUi() {
+    var c = (F.theme ? 1 : 0) + (F.n !== '' ? 1 : 0) + (F.max ? 1 : 0);
+    var b = $('#fCount'); b.hidden = !c; b.textContent = c;
+    $('#fSum').hidden = !anyActive();
+  }
+  (function () {
+    var sel = $('#fTheme');
+    sel.append(h('option', { value: '', text: 'Tous les thèmes' }));
+    THEMES.forEach(function (t) { sel.append(h('option', { value: t[0], text: t[1] })); });
+  })();
+  function filtersChanged() { syncFilterUi(); renderDeck(); }
+  $('#fQ').addEventListener('input', function () { F.q = this.value.trim(); filtersChanged(); });
+  $('#fTheme').addEventListener('change', function () { F.theme = this.value; filtersChanged(); });
+  $('#fN').addEventListener('input', function () { var v = parseInt(this.value, 10); F.n = isNaN(v) || v < 1 ? '' : String(v); filtersChanged(); });
+  $('#fMax').addEventListener('change', function () { F.max = this.value; filtersChanged(); });
+  function clearFilters() {
+    F = { q: '', theme: '', n: '', max: '' };
+    $('#fQ').value = ''; $('#fTheme').value = ''; $('#fN').value = ''; $('#fMax').value = '';
+    filtersChanged();
+  }
+  $('#fClear').addEventListener('click', clearFilters);
+  $('#fReset').addEventListener('click', clearFilters);
+  $('#fBtn').addEventListener('click', function () { openDlg($('#dFilt')); });
+
+  /* Pile de cartes */
+  var stage = $('#stage'), btnPass = $('#btnPass'), btnKeep = $('#btnKeep'), busy = false, dragging = false, deckSig = '';
+  function deck() {
+    return all().filter(function (a) { return matches(a) && S.favs.indexOf(a.id) < 0 && S.passed.indexOf(a.id) < 0; });
+  }
+  function renderSeg() {
+    document.querySelectorAll('.seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.fmt === S.fmt)); });
+  }
+  document.querySelectorAll('.seg button').forEach(function (b) {
+    b.addEventListener('click', function () { S.fmt = b.dataset.fmt; save(); renderSeg(); renderDeck(); });
+  });
+
+  function cardEl(a, top) {
+    var s = split(a.cat);
+    var meta = groupText(a) + (a.mat ? (a.mat.length ? ', matériel à prévoir' : ', sans matériel') : '');
+    var c = h('div', { class: 'card' + (top ? '' : ' next'), 'data-fmt': a.fmt },
+      h('div', { class: 'c-ill' }, illus(a)),
+      h('div', { class: 'c-top' },
+        h('span', { class: 'c-fam', text: s.fam }),
+        a.tag ? h('span', { class: 'c-tag', text: a.tag }) : null,
+        a.idea ? h('span', { class: 'c-tag', text: "Idée de l'équipe" }) : null),
+      h('h2', { class: 'c-title', text: a.title }),
+      s.skill ? h('p', { class: 'c-skill', text: s.skill }) : null,
+      meta ? h('p', { class: 'c-meta', text: meta }) : null,
+      h('p', { class: 'c-enjeux', text: a.enjeux }),
+      h('div', { class: 'c-foot' },
+        h('span', { class: 'c-time' }, icon('clock', 18), a.time),
+        top ? h('button', { type: 'button', class: 'c-more', text: 'Analyse pro', onclick: function () { openInfo(a.id); } }) : null));
+    if (top) {
+      c.append(h('span', { class: 'stamp keep', text: 'Dans ma besace' }), h('span', { class: 'stamp pass', text: 'Écarter' }));
+      bindDrag(c, a);
+    } else {
+      c.setAttribute('aria-hidden', 'true');
+    }
+    return c;
+  }
+
+  function renderDeck() {
+    busy = false;
+    var list = deck();
+    deckSig = list.slice(0, 2).map(function (a) { return a.id; }).join();
+    stage.replaceChildren();
+    if (!list.length) {
+      var anyPassed = S.passed.some(function (id) { var a = byId(id); return a && matches(a); });
+      var other = S.fmt === 'express' ? 'long' : 'express';
+      var empty = h('div', { class: 'empty' });
+      if (anyActive()) {
+        empty.append(h('h2', { text: 'Aucune carte' }), h('p', { text: 'Aucune carte ne correspond à la recherche ou aux filtres.' }),
+          h('button', { type: 'button', class: 'btn primary', text: 'Effacer les filtres', onclick: clearFilters }));
+      } else {
+        empty.append(h('h2', { text: 'Séquences explorées' }),
+          h('p', { text: S.fmt === 'all' ? 'Toutes les cartes ont été parcourues.' : 'Toutes les cartes du format ' + FM[S.fmt] + ' ont été parcourues.' }));
+        if (anyPassed) empty.append(h('button', { type: 'button', class: 'btn primary', text: 'Remettre les cartes écartées', onclick: restorePassed }));
+        if (S.fmt !== 'all') empty.append(h('button', { type: 'button', class: 'btn' + (anyPassed ? '' : ' primary'), text: 'Voir le format ' + FM[other], onclick: function () { S.fmt = other; save(); renderSeg(); renderDeck(); } }));
+      }
+      stage.append(empty);
+    } else {
+      if (list[1]) stage.append(cardEl(list[1], false));
+      stage.append(cardEl(list[0], true));
+    }
+    btnPass.disabled = btnKeep.disabled = !list.length;
+    $('#count').textContent = list.length ? plural(list.length, 'séquence à parcourir', 'séquences à parcourir') : '';
+    renderBadges();
+  }
+  function softRender() {
+    if (dragging || busy) return;
+    var list = deck();
+    var sig = list.slice(0, 2).map(function (a) { return a.id; }).join();
+    if (sig !== deckSig || !list.length) renderDeck();
+    else $('#count').textContent = plural(list.length, 'séquence à parcourir', 'séquences à parcourir');
+  }
+  function restorePassed() {
+    S.passed = S.passed.filter(function (id) { var a = byId(id); return !(a && matches(a)); });
+    save(); renderDeck();
+  }
+  function renderBadges() {
+    var n = S.favs.filter(function (id) { return byId(id); }).length, b = $('#bBadge');
+    b.hidden = !n; b.textContent = n;
+    var m = S.seance.filter(function (id) { return byId(id); }).length, c = $('#sBadge');
+    c.hidden = !m; c.textContent = m;
+  }
+
+  function decide(kind, id) {
+    var a = byId(id);
+    if (kind === 'keep') {
+      if (S.favs.indexOf(id) < 0) S.favs.push(id);
+      S.passed = S.passed.filter(function (x) { return x !== id; });
+    } else {
+      if (S.passed.indexOf(id) < 0) S.passed.push(id);
+      S.favs = S.favs.filter(function (x) { return x !== id; });
+    }
+    save(); renderDeck();
+    toast(kind === 'keep' ? '« ' + a.title + ' » est dans votre besace' : 'Carte écartée', function () {
+      S.favs = S.favs.filter(function (x) { return x !== id; });
+      S.passed = S.passed.filter(function (x) { return x !== id; });
+      save(); renderDeck(); if (!$('#s-besace').hidden) renderBesace();
+    });
+  }
+
+  function fling(card, kind, id) {
+    if (busy) return;
+    busy = true;
+    if (reduce) { decide(kind, id); return; }
+    var dir = kind === 'keep' ? 1 : -1;
+    card.style.transition = 'transform .3s ease-in, opacity .3s ease-in';
+    card.style.transform = 'translate(' + dir * Math.max(window.innerWidth, 500) + 'px, 0) rotate(' + dir * 22 + 'deg)';
+    card.style.opacity = '0';
+    var done = false;
+    function fin() { if (done) return; done = true; decide(kind, id); }
+    card.addEventListener('transitionend', fin, { once: true });
+    setTimeout(fin, 380);
+  }
+  function topFling(kind) {
+    var c = stage.querySelector('.card:not(.next)');
+    var list = deck();
+    if (c && list.length) fling(c, kind, list[0].id);
+  }
+  btnPass.addEventListener('click', function () { topFling('pass'); });
+  btnKeep.addEventListener('click', function () { topFling('keep'); });
+
+  function bindDrag(card, a) {
+    var sx = 0, sy = 0, dx = 0, on = false, moved = false, pid = null;
+    var stK = card.querySelector('.stamp.keep'), stP = card.querySelector('.stamp.pass');
+    card.addEventListener('pointerdown', function (e) {
+      if (busy || (e.button && e.button > 0) || e.target.closest('button')) return;
+      on = true; dragging = true; moved = false; dx = 0; sx = e.clientX; sy = e.clientY; pid = e.pointerId;
+      try { card.setPointerCapture(pid); } catch (er) {}
+      card.style.transition = 'none';
+    });
+    card.addEventListener('pointermove', function (e) {
+      if (!on) return;
+      dx = e.clientX - sx;
+      var dy = (e.clientY - sy) * 0.15;
+      if (Math.abs(dx) > 6 || Math.abs(e.clientY - sy) > 6) moved = true;
+      card.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + dx / 18 + 'deg)';
+      stK.style.opacity = dx > 30 ? Math.min((dx - 30) / 70, 1) : 0;
+      stP.style.opacity = dx < -30 ? Math.min((-dx - 30) / 70, 1) : 0;
+    });
+    function end(cancel) {
+      if (!on) return;
+      on = false; dragging = false;
+      try { card.releasePointerCapture(pid); } catch (er) {}
+      if (!cancel && Math.abs(dx) > 110) { fling(card, dx > 0 ? 'keep' : 'pass', a.id); return; }
+      card.style.transition = reduce ? 'none' : 'transform .25s cubic-bezier(.2,.9,.3,1.2)';
+      card.style.transform = '';
+      stK.style.opacity = 0; stP.style.opacity = 0;
+      if (!cancel && !moved) openInfo(a.id);
+    }
+    card.addEventListener('pointerup', function () { end(false); });
+    card.addEventListener('pointercancel', function () { end(true); });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if ($('#s-cartes').hidden || document.querySelector('dialog[open]')) return;
+    var t = e.target.tagName;
+    if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
+    e.preventDefault();
+    topFling(e.key === 'ArrowRight' ? 'keep' : 'pass');
+  });
+
+  /* Séance du jour */
+  function addToSeance(id) {
+    if (S.seance.indexOf(id) >= 0) { toast('Déjà dans la séance'); return false; }
+    if (S.seance.length >= 6) { toast('La séance est limitée à 6 activités'); return false; }
+    S.seance.push(id); save(); renderBadges();
+    if (!$('#s-seance').hidden) renderSeance();
+    return true;
+  }
+  function moveSeance(i, d) {
+    var j = i + d;
+    if (j < 0 || j >= S.seance.length) return;
+    var t = S.seance[i]; S.seance[i] = S.seance[j]; S.seance[j] = t;
+    save(); renderSeance();
+  }
+  function renderSeance() {
+    S.seance = S.seance.filter(function (id) { return byId(id); });
+    var list = S.seance.map(byId), ul = $('#sList');
+    ul.replaceChildren();
+    list.forEach(function (a, i) {
+      var s = split(a.cat);
+      var up = h('button', { type: 'button', class: 'mini', 'aria-label': 'Monter ' + a.title, disabled: i === 0, onclick: function () { moveSeance(i, -1); } }, icon('up', 18));
+      var dn = h('button', { type: 'button', class: 'mini', 'aria-label': 'Descendre ' + a.title, disabled: i === list.length - 1, onclick: function () { moveSeance(i, 1); } }, icon('down', 18));
+      ul.append(h('li', { class: 'row' },
+        h('span', { class: 'ord', text: String(i + 1) }),
+        h('button', { type: 'button', class: 'row-main', onclick: function () { openInfo(a.id); } },
+          h('b', { text: a.title }),
+          h('span', {}, h('i', { class: 'dot' + (a.fmt === 'long' ? ' long' : '') }), s.fam + ', ' + a.time)),
+        up, dn,
+        h('button', { type: 'button', class: 'mini', 'aria-label': 'Retirer ' + a.title + ' de la séance', onclick: function () {
+          S.seance = S.seance.filter(function (x) { return x !== a.id; }); save(); renderSeance();
+        } }, icon('x', 18))));
+    });
+    $('#sEmpty').hidden = list.length > 0;
+    var tot = list.reduce(function (n, a) { return n + minutes(a); }, 0);
+    $('#sTotal').textContent = list.length ? plural(list.length, 'activité', 'activités') + ', durée prévue ' + fmtDur(tot) : '';
+    ['sCopy', 'sDocx', 'sPdf'].forEach(function (id) { $('#' + id).disabled = !list.length; });
+    fillSeanceSel();
+    renderBadges();
+  }
+  function optionGroups(sel, placeholder) {
+    var cur = sel.value;
+    sel.replaceChildren();
+    if (placeholder) sel.append(h('option', { value: '', text: placeholder }));
+    ['express', 'long'].forEach(function (f) {
+      var g = h('optgroup', { label: FM[f] });
+      all().filter(function (a) { return a.fmt === f; }).forEach(function (a) { g.append(h('option', { value: a.id, text: a.title + (a.tag ? ' (' + a.tag + ')' : '') })); });
+      sel.append(g);
+    });
+    if (cur && sel.querySelector('option[value="' + cur.replace(/"/g, '') + '"]')) sel.value = cur;
+  }
+  function fillSeanceSel() { optionGroups($('#sAddSel'), 'Choisir une activité'); }
+  $('#sAddBtn').addEventListener('click', function () {
+    var v = $('#sAddSel').value;
+    if (!v) { $('#sStatus').textContent = 'Choisir une activité dans la liste.'; return; }
+    $('#sStatus').textContent = '';
+    addToSeance(v);
+    $('#sAddSel').value = '';
+  });
+
+  /* Documents : un même modèle de blocs donne le texte, le Word et le PDF */
+  function seanceBlocks() {
+    var list = S.seance.map(byId).filter(Boolean);
+    var tot = list.reduce(function (n, a) { return n + minutes(a); }, 0);
+    var name = $('#sName').value.trim() || 'Séance du jour';
+    var b = [{ t: 'h1', text: name }, { t: 'p', text: plural(list.length, 'activité', 'activités') + ', durée prévue ' + fmtDur(tot) + '.' }];
+    list.forEach(function (a, i) {
+      var s = split(a.cat);
+      b.push({ t: 'h2', text: (i + 1) + '. ' + a.title + ' (' + a.time + ')' });
+      b.push({ t: 'p', text: s.fam + (s.skill ? ' / ' + s.skill : '') + (groupText(a) ? ' - ' + groupText(a) : '') });
+      b.push({ t: 'h3', text: 'Objectifs' });
+      a.objs.forEach(function (o) { b.push({ t: 'li', text: o }); });
+      if (a.mat && a.mat.length) {
+        b.push({ t: 'h3', text: 'Matériel' });
+        a.mat.forEach(function (m) { b.push({ t: 'li', text: m }); });
+      }
+      b.push({ t: 'h3', text: 'Déroulé' });
+      a.steps.forEach(function (st, k) { b.push({ t: 'step', text: (k + 1) + '. ' + st }); });
+      if (a.vig) { b.push({ t: 'h3', text: 'Point de vigilance' }); b.push({ t: 'p', text: a.vig }); }
+    });
+    b.push({ t: 'sp' }, { t: 'p', text: 'Document généré avec La Besace Pédagogique.' });
+    return b;
+  }
+  function dateFr(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  function ficheBlocks(a) {
+    var s = split(a.cat);
+    var b = [{ t: 'h1', text: a.title }, { t: 'p', text: s.fam + (s.skill ? ' / ' + s.skill : '') + ' - ' + a.time + (groupText(a) ? ' - ' + groupText(a) : '') }];
+    b.push({ t: 'h3', text: 'Objectifs' });
+    a.objs.forEach(function (o) { b.push({ t: 'li', text: o }); });
+    if (a.mat && a.mat.length) { b.push({ t: 'h3', text: 'Matériel' }); a.mat.forEach(function (m) { b.push({ t: 'li', text: m }); }); }
+    b.push({ t: 'h3', text: 'Enjeux' }); b.push({ t: 'p', text: a.enjeux });
+    b.push({ t: 'h3', text: 'Déroulé' });
+    a.steps.forEach(function (st, k) { b.push({ t: 'step', text: (k + 1) + '. ' + st }); });
+    b.push({ t: 'sp' }, { t: 'p', text: 'Fiche issue de la co-création de La Besace Pédagogique.' });
+    return b;
+  }
+  function noteBlocks(text) {
+    return text.split('\n').map(function (l, i) {
+      if (l === '') return { t: 'sp' };
+      return i === 0 ? { t: 'h1', text: l.replace(/^\[|\]$/g, '') } : { t: 'p', text: l };
+    });
+  }
+  function blocksToText(blocks) {
+    return blocks.map(function (b) {
+      switch (b.t) {
+        case 'sp': return '';
+        case 'h1': return b.text.toUpperCase() + '\n';
+        case 'h2': return '\n' + b.text;
+        case 'li': return '- ' + b.text;
+        case 'step': return '  ' + b.text;
+        default: return b.text;
+      }
+    }).join('\n');
+  }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function para(text, o) {
+    o = o || {};
+    var ppr = '<w:spacing w:before="' + (o.before || 0) + '" w:after="' + (o.after == null ? 80 : o.after) + '"/>';
+    if (o.left) ppr += '<w:ind w:left="' + o.left + '" w:hanging="' + (o.hang || 0) + '"/>';
+    var rpr = '<w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>' + (o.b ? '<w:b/>' : '') + (o.color ? '<w:color w:val="' + o.color + '"/>' : '') + '<w:sz w:val="' + (o.sz || 22) + '"/>';
+    return '<w:p><w:pPr>' + ppr + '</w:pPr><w:r><w:rPr>' + rpr + '</w:rPr><w:t xml:space="preserve">' + esc(text) + '</w:t></w:r></w:p>';
+  }
+  function docxBlob(blocks) {
+    if (!window.JSZip) return null;
+    var body = blocks.map(function (b) {
+      switch (b.t) {
+        case 'sp': return '<w:p/>';
+        case 'h1': return para(b.text, { b: 1, sz: 34, after: 160, color: '8C5B3E' });
+        case 'h2': return para(b.text, { b: 1, sz: 28, before: 280, after: 100, color: '4F7686' });
+        case 'h3': return para(b.text, { b: 1, sz: 23, before: 160, after: 60 });
+        case 'li': return para('•  ' + b.text, { left: 400, hang: 280, after: 40 });
+        case 'step': return para(b.text, { left: 400, hang: 300, after: 40 });
+        default: return para(b.text);
+      }
+    }).join('');
+    var doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body +
+      '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="709" w:footer="709" w:gutter="0"/></w:sectPr></w:body></w:document>';
+    var z = new JSZip();
+    z.file('[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+    z.file('_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    z.file('word/document.xml', doc);
+    return z.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+  }
+  function pdfBlob(blocks) {
+    var P = window.PDFLib;
+    if (!P) return null;
+    return P.PDFDocument.create().then(function (doc) {
+      return Promise.all([doc.embedFont(P.StandardFonts.Helvetica), doc.embedFont(P.StandardFonts.HelveticaBold)]).then(function (fonts) {
+        var reg = fonts[0], bold = fonts[1];
+        var ok = {};
+        reg.getCharacterSet().forEach(function (cp) { ok[cp] = 1; });
+        function clean(s) {
+          return Array.from(String(s).replace(/→/g, '->').replace(/[  ]/g, ' ')).map(function (ch) {
+            return ok[ch.codePointAt(0)] ? ch : '?';
+          }).join('');
+        }
+        function wrap(text, font, size, width) {
+          var lines = [], cur = '';
+          clean(text).split(' ').forEach(function (word) {
+            var t = cur ? cur + ' ' + word : word;
+            if (!cur || font.widthOfTextAtSize(t, size) <= width) cur = t; else { lines.push(cur); cur = word; }
+          });
+          if (cur) lines.push(cur);
+          return lines;
+        }
+        var W = 595.28, H = 841.89, M = 51, width = W - 2 * M, page = doc.addPage([W, H]), y = H - M;
+        var ST = {
+          h1: { size: 17, lead: 22, before: 0, font: bold, color: P.rgb(0.55, 0.36, 0.24) },
+          h2: { size: 13, lead: 17, before: 14, font: bold, color: P.rgb(0.31, 0.46, 0.53) },
+          h3: { size: 11, lead: 15, before: 8, font: bold, color: P.rgb(0.1, 0.1, 0.1) },
+          p: { size: 10.5, lead: 14, before: 3, font: reg, color: P.rgb(0.1, 0.1, 0.1) },
+          li: { size: 10.5, lead: 14, before: 1.5, font: reg, color: P.rgb(0.1, 0.1, 0.1), ind: 14 },
+          step: { size: 10.5, lead: 14, before: 1.5, font: reg, color: P.rgb(0.1, 0.1, 0.1), ind: 14 }
+        };
+        blocks.forEach(function (b) {
+          if (b.t === 'sp') { y -= 8; return; }
+          var st = ST[b.t] || ST.p, ind = st.ind || 0;
+          if (y < H - M) y -= st.before;
+          wrap(b.text, st.font, st.size, width - ind).forEach(function (ln, k) {
+            if (y - st.lead < M) { page = doc.addPage([W, H]); y = H - M; }
+            if (b.t === 'li' && k === 0) page.drawText('-', { x: M + 3, y: y - st.size, size: st.size, font: st.font, color: st.color });
+            page.drawText(ln, { x: M + ind, y: y - st.size, size: st.size, font: st.font, color: st.color });
+            y -= st.lead;
+          });
+        });
+        return doc.save();
+      });
+    }).then(function (bytes) { return new Blob([bytes], { type: 'application/pdf' }); });
+  }
+  function exportFile(kind, blocks, base, statusEl) {
+    if (!DL) return;
+    var p;
+    try { p = kind === 'docx' ? docxBlob(blocks) : pdfBlob(blocks); } catch (e) { p = null; }
+    if (!p) { statusEl.textContent = "Cet export n'est pas disponible ici. Utiliser « Copier »."; return; }
+    Promise.resolve(p).then(function (blob) {
+      return DL.save({ filename: base + '.' + kind, data: blob });
+    }).then(function () {
+      statusEl.textContent = 'Fichier ' + (kind === 'docx' ? 'Word' : 'PDF') + ' enregistré.';
+    }, function (e) {
+      statusEl.textContent = e && e.code === 'declined' ? '' : "Enregistrement impossible. Utiliser « Copier ».";
+    });
+  }
+  function showExportButtons() {
+    ['sDocx', 'sPdf', 'nDocx', 'nPdf'].forEach(function (id) { $('#' + id).hidden = !DL; });
+  }
+  function copyText(t, statusEl, okMsg) {
+    var p;
+    try { p = navigator.clipboard.writeText(t); } catch (e) { p = Promise.reject(e); }
+    return p.then(function () { statusEl.textContent = okMsg; }, function () {
+      statusEl.textContent = 'Copie automatique impossible. Sélectionner le texte pour le copier.';
+    });
+  }
+  $('#sCopy').addEventListener('click', function () { copyText(blocksToText(seanceBlocks()), $('#sStatus'), 'Déroulé copié dans le presse-papiers.'); });
+  function seanceBase() { return 'seance-' + slug($('#sName').value.trim() || 'du-jour'); }
+  $('#sDocx').addEventListener('click', function () { exportFile('docx', seanceBlocks(), seanceBase(), $('#sStatus')); });
+  $('#sPdf').addEventListener('click', function () { exportFile('pdf', seanceBlocks(), seanceBase(), $('#sStatus')); });
+
+  /* Fiche d'analyse */
+  function canDelete(a) { return !!(a.shared && (CAN_EDIT || (a.by && a.by === UID))); }
+  function openInfo(id) {
+    var a = byId(id); if (!a) return;
+    var s = split(a.cat), d = $('#dInfo'), fav = S.favs.indexOf(id) >= 0, inSeance = S.seance.indexOf(id) >= 0;
+    var favBtn = h('button', { type: 'button', class: 'btn', text: fav ? 'Retirer de ma besace' : 'Dans ma besace' });
+    favBtn.addEventListener('click', function () {
+      if (fav) { S.favs = S.favs.filter(function (x) { return x !== id; }); save(); d.close(); renderDeck(); if (!$('#s-besace').hidden) renderBesace(); toast('Retirée de la besace'); }
+      else { d.close(); decide('keep', id); }
+    });
+    var seBtn = h('button', { type: 'button', class: 'btn', text: inSeance ? 'Retirer de la séance' : 'Ajouter à la séance' });
+    seBtn.addEventListener('click', function () {
+      d.close();
+      if (inSeance) { S.seance = S.seance.filter(function (x) { return x !== id; }); save(); renderBadges(); if (!$('#s-seance').hidden) renderSeance(); toast('Retirée de la séance'); }
+      else if (addToSeance(id)) toast('Ajoutée à la séance (' + S.seance.length + ')');
+    });
+    var noteBtn = h('button', { type: 'button', class: 'btn primary', text: "Rédiger la note d'évaluation", onclick: function () { d.close(); goNote(id); } });
+    var delBtn = null;
+    if (canDelete(a)) {
+      var armed = false;
+      delBtn = h('button', { type: 'button', class: 'btn', text: 'Supprimer cette idée' });
+      delBtn.addEventListener('click', function () {
+        if (!armed) { armed = true; delBtn.textContent = 'Confirmer la suppression'; return; }
+        delBtn.disabled = true;
+        DB.collection('ideas').doc(a.docId).delete().then(function () {
+          S.favs = S.favs.filter(function (x) { return x !== id; });
+          S.seance = S.seance.filter(function (x) { return x !== id; });
+          save(); d.close(); toast('Idée supprimée');
+        }, function () { delBtn.disabled = false; armed = false; delBtn.textContent = 'Suppression impossible, réessayer'; });
+      });
+    }
+    var shareBtns = null;
+    if (a.idea) {
+      var shSt = h('p', { class: 'status', role: 'status' });
+      shareBtns = h('div', { class: 'btns', style: 'flex-basis:100%' },
+        h('button', { type: 'button', class: 'btn', text: 'Copier la fiche', onclick: function () { copyText(blocksToText(ficheBlocks(a)), shSt, 'Fiche copiée dans le presse-papiers.'); } }),
+        DL ? h('button', { type: 'button', class: 'btn', text: 'Word', onclick: function () { exportFile('docx', ficheBlocks(a), 'activite-' + slug(a.title), shSt); } }) : null,
+        DL ? h('button', { type: 'button', class: 'btn', text: 'PDF', onclick: function () { exportFile('pdf', ficheBlocks(a), 'activite-' + slug(a.title), shSt); } }) : null,
+        shSt);
+    }
+    var hasExtra = !!(a.vig || a.mat);
+    d.replaceChildren(h('div', { class: 'sheet-in' },
+      h('div', { class: 'sheet-head' },
+        h('div', {}, h('p', { class: 'd-fam', text: s.fam }), h('h2', { id: 'dInfoTitle', text: a.title })),
+        h('button', { type: 'button', class: 'icon-btn', 'data-close': true, 'aria-label': 'Fermer' }, icon('x', 22))),
+      h('div', { class: 'd-ill', 'data-fmt': a.fmt }, illus(a)),
+      s.skill ? h('p', { class: 'screen-lead', text: s.skill }) : null,
+      h('div', { class: 'chips' },
+        h('span', { class: 'chip ' + (a.fmt === 'express' ? 'f' : 'l'), text: FM[a.fmt] }),
+        h('span', { class: 'chip' }, icon('clock', 16), a.time),
+        groupText(a) ? h('span', { class: 'chip', text: groupText(a) }) : null,
+        a.age ? h('span', { class: 'chip', text: a.age }) : null,
+        a.tag ? h('span', { class: 'chip', text: a.tag }) : null),
+      h('div', { class: 'd-sec' }, h('h3', { text: 'Objectifs pédagogiques' }), h('ul', {}, a.objs.map(function (o) { return h('li', { text: o }); }))),
+      a.mat ? h('div', { class: 'd-sec' }, h('h3', { text: 'Matériel' }), a.mat.length ? h('ul', {}, a.mat.map(function (m) { return h('li', { text: m }); })) : h('p', { text: 'Aucun matériel.' })) : null,
+      h('div', { class: 'd-sec' }, h('h3', { text: 'Enjeux professionnels et cliniques' }), h('p', { text: a.enjeux })),
+      h('div', { class: 'd-sec' }, h('h3', { text: 'Déroulé opérationnel' }), h('ol', { class: 'steps' }, a.steps.map(function (x) { return h('li', { text: x }); }))),
+      a.vig ? h('div', { class: 'd-sec' }, h('h3', { text: 'Point de vigilance' }), h('p', { class: 'vig', text: a.vig })) : null,
+      a.draft ? h('p', { class: 'foot-note', text: "Activité proposée par Claude : à relire, adapter et valider avec votre expérience avant de la mener avec les jeunes." }) : (hasExtra ? h('p', { class: 'foot-note', text: "Matériel, effectif, âge et point de vigilance sont proposés d'après le déroulé. À relire et à corriger avec votre expérience." }) : null),
+      a.idea ? h('p', { class: 'who', text: 'Proposée par la communauté' + (a.at ? ', le ' + dateFr(a.at) : '') + '. Elle peut être reproduite et partagée.' }) : null,
+      h('div', { class: 'btns' }, noteBtn, seBtn, favBtn, shareBtns, delBtn)));
+    d.setAttribute('aria-labelledby', 'dInfoTitle');
+    openDlg(d);
+    d.querySelector('.sheet-in').scrollTop = 0;
+  }
+
+  /* Ma besace */
+  function renderBesace() {
+    var box = $('#bList'); box.replaceChildren();
+    var list = S.favs.map(byId).filter(Boolean);
+    $('#bEmpty').hidden = list.length > 0;
+    list.forEach(function (a) {
+      var s = split(a.cat), inS = S.seance.indexOf(a.id) >= 0;
+      box.append(h('li', { class: 'row' },
+        h('button', { type: 'button', class: 'row-main', onclick: function () { openInfo(a.id); } },
+          h('b', { text: a.title }),
+          h('span', {}, h('i', { class: 'dot' + (a.fmt === 'long' ? ' long' : '') }), s.fam + ', ' + a.time)),
+        h('div', { class: 'row-acts' },
+          h('button', { type: 'button', class: 'link', text: inS ? 'Dans la séance' : '+ Séance', disabled: inS, 'aria-label': (inS ? a.title + ' est dans la séance' : 'Ajouter ' + a.title + ' à la séance'), onclick: function () {
+            if (addToSeance(a.id)) { toast('Ajoutée à la séance (' + S.seance.length + ')'); renderBesace(); }
+          } }),
+          h('button', { type: 'button', class: 'link', text: 'Retirer', 'aria-label': 'Retirer ' + a.title + ' de la besace', onclick: function () {
+            S.favs = S.favs.filter(function (x) { return x !== a.id; }); save(); renderBesace(); renderBadges();
+          } }))));
+    });
+    renderBadges();
+  }
+  $('#bToDeck').addEventListener('click', function () { go('cartes'); });
+
+  /* Note d'évaluation */
+  var nAct = $('#nAct');
+  function fillActs(selected) {
+    optionGroups(nAct, '');
+    nAct.append(h('option', { value: '__autre', text: 'Autre séquence (hors catalogue)' }));
+    if (selected) nAct.value = selected;
+    $('#nOtherWrap').hidden = nAct.value !== '__autre';
+  }
+  nAct.addEventListener('change', function () { $('#nOtherWrap').hidden = nAct.value !== '__autre'; });
+  function goNote(id) {
+    fillActs(id); resetNoteUi();
+    $('#noteOut').hidden = true;
+    $('#noteForm').hidden = false;
+    go('note');
+  }
+  function reportText() {
+    var a = byId(nAct.value);
+    var name = a ? a.title : ($('#nOther').value.trim() || 'Séquence hors catalogue');
+    var young = $('#nYoung').value.trim() || 'X';
+    var dur = $('#nDur').value.trim() || '--';
+    var dyn = $('#nDyn').value;
+    var reaction = $('#nReaction').value.trim() || 'Aucune observation notable.';
+    var ind = $('#nInd').value.trim() || 'Non spécifiés.';
+    var proj = $('#nProj').value.trim() || 'Axe du PPA en cours de consolidation.';
+    return "[NOTE D'ÉVALUATION CLINIQUE - COMPTE RENDU D'ACTIVITÉ LUDO-PÉDAGOGIQUE]\nSéquence réalisée : " + name +
+      "\nIdentifiant Jeune : " + young + " | Durée effective : " + dur + " minutes | Configuration : " + dyn +
+      "\n\n1. POSTURE & RÉACTIVITÉ FACE À LA MÉDIATION : " + reaction +
+      "\n2. INDICATEURS OBSERVABLES (FREINS & RÉUSSITES) : " + ind +
+      "\n3. ALIGNEMENT & PERSPECTIVES (PROJET PERSONNALISÉ D'ACCOMPAGNEMENT) : " + proj +
+      "\n\nNote rédigée de manière anonymisée conformément à l'article 226-13 du Code Pénal relatif au secret professionnel.";
+  }
+  var curNote = null, editingId = null, delArmed = false;
+  function noteValues() {
+    return { actId: nAct.value, other: $('#nOther').value.trim(), young: $('#nYoung').value.trim(), dur: $('#nDur').value.trim(), dyn: $('#nDyn').value,
+      reaction: $('#nReaction').value.trim(), ind: $('#nInd').value.trim(), proj: $('#nProj').value.trim() };
+  }
+  function noteName(n) { var a = byId(n.actId); return a ? a.title : (n.other || 'Séquence hors catalogue'); }
+  function resetNoteUi() {
+    curNote = null; editingId = null; delArmed = false;
+    $('#noteSubmit').textContent = 'Enregistrer et copier la note';
+    $('#editNote').hidden = true; $('#delNote').hidden = true; $('#delNote').textContent = 'Supprimer';
+  }
+  $('#noteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = reportText(), v = noteValues(), n;
+    if (editingId) n = NOTES.filter(function (x) { return x.id === editingId; })[0];
+    if (!n) { n = { id: 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), at: new Date().toISOString() }; NOTES.unshift(n); }
+    Object.keys(v).forEach(function (k) { n[k] = v[k]; });
+    n.text = t;
+    var stored = saveNotes();
+    curNote = n.id; editingId = null;
+    $('#outText').value = t;
+    $('#noteForm').hidden = true; $('#noteOut').hidden = false;
+    $('#editNote').hidden = false; $('#delNote').hidden = false; $('#noteSubmit').textContent = 'Enregistrer et copier la note';
+    copyText(t, $('#copyStatus'), 'Note copiée dans le presse-papiers.').then(function () {
+      $('#copyStatus').textContent += stored ? ' Enregistrée sur cet appareil.' : " Enregistrement impossible sur cet appareil : copier la note pour la garder.";
+    });
+    renderNotes();
+    $('#s-note').scrollTop = 0;
+  });
+  function showNote(n) {
+    resetNoteUi(); curNote = n.id;
+    $('#outText').value = n.text; $('#copyStatus').textContent = 'Note enregistrée le ' + dateFr(n.at) + '.';
+    $('#noteForm').hidden = true; $('#noteOut').hidden = false;
+    $('#editNote').hidden = false; $('#delNote').hidden = false;
+    $('#s-note').scrollTop = 0;
+  }
+  $('#editNote').addEventListener('click', function () {
+    var n = NOTES.filter(function (x) { return x.id === curNote; })[0]; if (!n) return;
+    fillActs(byId(n.actId) ? n.actId : '__autre');
+    $('#nOther').value = n.other || ''; $('#nYoung').value = n.young || ''; $('#nDur').value = n.dur || '';
+    if (n.dyn) $('#nDyn').value = n.dyn;
+    $('#nReaction').value = n.reaction || ''; $('#nInd').value = n.ind || ''; $('#nProj').value = n.proj || '';
+    editingId = n.id; $('#noteSubmit').textContent = 'Enregistrer les modifications';
+    $('#noteOut').hidden = true; $('#noteForm').hidden = false; $('#s-note').scrollTop = 0;
+  });
+  $('#delNote').addEventListener('click', function () {
+    if (!delArmed) { delArmed = true; this.textContent = 'Confirmer la suppression'; return; }
+    NOTES = NOTES.filter(function (x) { return x.id !== curNote; }); saveNotes();
+    $('#noteOut').hidden = true; $('#noteForm').hidden = false; resetNoteUi(); renderNotes(); toast('Note supprimée');
+  });
+  function renderNotes() {
+    var box = $('#nList'); box.replaceChildren();
+    $('#nHist').hidden = !NOTES.length;
+    $('#nHistTitle').textContent = 'Notes enregistrées (' + NOTES.length + ')';
+    NOTES.forEach(function (n) {
+      box.append(h('li', { class: 'row' },
+        h('button', { type: 'button', class: 'row-main', onclick: function () { showNote(n); } },
+          h('b', { text: noteName(n) + (n.young ? ' - ' + n.young : '') }),
+          h('span', { text: dateFr(n.at) + (n.dur ? ', ' + n.dur + ' min' : '') }))));
+    });
+  }
+  var clrArmed = false;
+  $('#nClear').addEventListener('click', function () {
+    if (!clrArmed) { clrArmed = true; this.textContent = 'Confirmer : tout supprimer'; var b = this; setTimeout(function () { clrArmed = false; b.textContent = 'Tout supprimer'; }, 5000); return; }
+    clrArmed = false; this.textContent = 'Tout supprimer';
+    NOTES = []; saveNotes(); $('#noteOut').hidden = true; $('#noteForm').hidden = false; resetNoteUi(); renderNotes(); toast('Notes supprimées');
+  });
+  $('#copyAgain').addEventListener('click', function () { copyText($('#outText').value, $('#copyStatus'), 'Note copiée dans le presse-papiers.'); });
+  $('#nDocx').addEventListener('click', function () { exportFile('docx', noteBlocks($('#outText').value), 'note-evaluation', $('#copyStatus')); });
+  $('#nPdf').addEventListener('click', function () { exportFile('pdf', noteBlocks($('#outText').value), 'note-evaluation', $('#copyStatus')); });
+  $('#newNote').addEventListener('click', function () {
+    ['nYoung', 'nDur', 'nReaction', 'nInd', 'nProj', 'nOther'].forEach(function (id) { $('#' + id).value = ''; });
+    $('#outText').value = ''; $('#copyStatus').textContent = ''; resetNoteUi();
+    $('#noteOut').hidden = true; $('#noteForm').hidden = false;
+    $('#s-note').scrollTop = 0;
+  });
+
+  /* Co-création : les idées vont dans la base partagée quand elle est disponible, sinon sur l'appareil */
+  var lastIdeaText = '';
+  function updateIdeaLead() {
+    $('#ideaLead').textContent = DB
+      ? "Proposer une activité : elle rejoint les cartes de toutes les personnes qui ont accès à cette page."
+      : "Proposer une activité : elle rejoint les cartes de cet appareil. Copier son texte pour la transmettre à l'équipe.";
+  }
+  function openIdeaForm() {
+    $('#ideaForm').hidden = false; $('#ideaDone').hidden = true; $('#ideaErr').hidden = true;
+    updateIdeaLead();
+    openDlg($('#dIdea'));
+  }
+  $('#ideaBtn').addEventListener('click', function () { go('idees'); });
+  $('#ideaOpen').addEventListener('click', openIdeaForm);
+  $('#ideaSee').addEventListener('click', function () { $('#dIdea').close(); go('idees'); });
+  function renderIdees() {
+    var box = $('#iList'); box.replaceChildren();
+    var list = SHARED.concat(LOCAL);
+    $('#iEmpty').hidden = list.length > 0;
+    $('#ideeLead').textContent = DB
+      ? "Proposer une nouvelle activité à ajouter à la Besace. Toutes les personnes qui utilisent la page peuvent la voir, la reproduire et la partager."
+      : "Proposer une nouvelle activité à ajouter à la Besace. Ici, elle reste sur cet appareil : la copier pour la transmettre à l'équipe.";
+    list.forEach(function (a) {
+      var s = split(a.cat);
+      box.append(h('li', { class: 'row' },
+        h('div', { class: 't-ill', 'data-fmt': a.fmt }, illus(a)),
+        h('button', { type: 'button', class: 'row-main', onclick: function () { openInfo(a.id); } },
+          h('b', { text: a.title }),
+          h('span', {}, h('i', { class: 'dot' + (a.fmt === 'long' ? ' long' : '') }), s.fam + ', ' + a.time + (a.at ? ', ' + dateFr(a.at) : '')))));
+    });
+  }
+  function sharedFromDoc(d) {
+    var x = d.data();
+    if (!x || typeof x.title !== 'string' || typeof x.enjeux !== 'string') return null;
+    var fmt = x.fmt === 'long' ? 'long' : 'express';
+    var cat = typeof x.cat === 'string' ? x.cat.slice(0, 120) : 'Habiletés Sociales / Climat Institutionnel';
+    var steps = strs(x.steps).slice(0, 20).map(function (t) { return t.slice(0, 500); });
+    var author = typeof x.author === 'string' ? x.author.slice(0, 80) : '';
+    return {
+      id: 'eq-' + d.id, docId: d.id, shared: true, idea: true, by: typeof x.by === 'string' ? x.by : '', at: typeof x.at === 'string' ? x.at : '',
+      nb: Array.isArray(x.nb) && x.nb.length === 2 && x.nb.every(function (v) { return typeof v === 'number' && v >= 1 && v <= 40; }) && x.nb[0] <= x.nb[1] ? x.nb : null,
+      mat: Array.isArray(x.mat) ? strs(x.mat).slice(0, 15).map(function (t) { return t.slice(0, 100); }) : undefined,
+      title: x.title.slice(0, 120) + (author ? ' [Par ' + author + ']' : ''), tag: '', time: fmt === 'express' ? '15 min' : '60 min',
+      cat: cat, fmt: fmt, enjeux: x.enjeux.slice(0, 2000), theme: [themeOf(cat)],
+      objs: ["Favoriser la contribution active des équipes du réseau", "Partager des pratiques d'ingénierie éducative éprouvées"],
+      steps: steps.length ? steps : ['Séquence participative partagée par les professionnels de terrain.']
+    };
+  }
+  $('#ideaForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var title = $('#iTitle').value.trim(), stakes = $('#iStakes').value.trim(), err = $('#ideaErr');
+    if (!title || !stakes) { err.textContent = "Renseigner au moins le nom de l'activité et les enjeux."; err.hidden = false; return; }
+    err.hidden = true;
+    var author = $('#iAuthor').value.trim() || 'Équipe Partenaire';
+    var fmt = $('#iFmt').value, cat = $('#iCat').value;
+    var lines = $('#iSteps').value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+    var nbMin = parseInt($('#iNbMin').value, 10), nbMax = parseInt($('#iNbMax').value, 10), nb = null;
+    if (nbMin >= 1 && nbMax >= nbMin && nbMax <= 40) nb = [nbMin, nbMax];
+    var mat = $('#iMat').value.split(',').map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 15);
+    var steps = lines.length ? lines : ['Séquence participative partagée par les professionnels de terrain.', 'Analyse clinique collaborative en cours de validation.', 'Utilisable immédiatement en atelier expérimental.'];
+    var sub = $('#ideaSubmit'); sub.disabled = true;
+    function finish(shared) {
+      sub.disabled = false;
+      lastIdeaText = "Activité proposée : " + title + "\nFamille : " + cat + "\nFormat : " + FM[fmt] + (nb ? "\nEffectif : " + nb[0] + ' à ' + nb[1] + ' jeunes' : '') + (mat.length ? "\nMatériel : " + mat.join(', ') : '') + "\nEnjeux : " + stakes +
+        (lines.length ? "\nDéroulé :\n- " + lines.join("\n- ") : '') + "\nProposée par : " + author;
+      $('#ideaDoneMsg').textContent = '« ' + title + ' » rejoint la Besace (format ' + FM[fmt] + '). ' + (shared
+        ? "Elle est partagée avec les personnes qui ont accès à cette page."
+        : "Elle reste sur cet appareil : copier le texte pour la transmettre à l'équipe.");
+      $('#ideaCopyStatus').textContent = '';
+      $('#ideaForm').hidden = true; $('#ideaDone').hidden = false;
+      S.fmt = fmt; save(); renderSeg(); fillActs(nAct.value); fillSeanceSel();
+      if (!$('#s-cartes').hidden) renderDeck();
+      if (!$('#s-idees').hidden) renderIdees();
+    }
+    function saveLocalIdea() {
+      LOCAL.unshift({
+        id: 'idee-' + Date.now().toString(36), idea: true, title: title + ' [Par ' + author + ']', tag: '', time: fmt === 'express' ? '15 min' : '60 min',
+        cat: cat, fmt: fmt, enjeux: stakes, theme: [themeOf(cat)], at: new Date().toISOString(), nb: nb, mat: mat,
+        objs: ["Favoriser la contribution active des équipes du réseau", "Partager des pratiques d'ingénierie éducative éprouvées"], steps: steps
+      });
+      saveLocal(); finish(false);
+    }
+    if (!DB) { saveLocalIdea(); return; }
+    var docId = 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    DB.collection('ideas').doc(docId).set({
+      title: title.slice(0, 120), cat: cat, fmt: fmt, enjeux: stakes.slice(0, 2000), steps: steps.slice(0, 20).map(function (t) { return t.slice(0, 500); }),
+      author: author.slice(0, 80), by: UID || '', at: new Date().toISOString(),
+      nb: nb || [], mat: mat.map(function (t) { return t.slice(0, 100); })
+    }).then(function () { finish(true); }, saveLocalIdea);
+  });
+  $('#ideaCopy').addEventListener('click', function () { copyText(lastIdeaText, $('#ideaCopyStatus'), 'Texte copié dans le presse-papiers.'); });
+  $('#ideaAnother').addEventListener('click', function () {
+    ['iTitle', 'iStakes', 'iSteps', 'iAuthor', 'iNbMin', 'iNbMax', 'iMat'].forEach(function (id) { $('#' + id).value = ''; });
+    $('#ideaForm').hidden = false; $('#ideaDone').hidden = true;
+  });
+
+  /* Confidentialité : l'écran se masque quand la page passe en arrière-plan ou à la demande */
+  var veil = $('#veil');
+  function showVeil() { if (!veil.open) openDlg(veil); }
+  $('#hideBtn').addEventListener('click', showVeil);
+  $('#veilBtn').addEventListener('click', function () { veil.close(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) showVeil(); });
+
+  fillActs();
+  fillSeanceSel();
+  renderSeg();
+  syncFilterUi();
+  go(location.hash.slice(1));
+
+  /* Capacités de la page, branchées une fois la page affichée */
+  (function () {
+    var C = window.claude;
+    if (!C || typeof C.use !== 'function') return;
+    function use(name, fn) { try { C.use(name).then(function (ns) { if (ns) fn(ns); }, function () {}); } catch (e) {} }
+    use('downloads', function (d) { DL = d; showExportButtons(); });
+    use('user', function (u) {
+      u.id().then(function (id) { UID = id; });
+      u.canEdit().then(function (v) { CAN_EDIT = !!v; });
+    });
+    use('db', function (db) {
+      DB = db; updateIdeaLead(); if (!$('#s-idees').hidden) renderIdees();
+      db.collection('ideas').orderBy('at', 'desc').limit(200).onSnapshot(function (snap) {
+        SHARED = snap.docs.map(sharedFromDoc).filter(Boolean);
+        fillActs(nAct.value); fillSeanceSel();
+        if (!$('#s-cartes').hidden) softRender();
+        if (!$('#s-besace').hidden) renderBesace();
+        if (!$('#s-seance').hidden) renderSeance();
+        if (!$('#s-idees').hidden) renderIdees();
+        renderBadges();
+      }, function () {});
+    });
+  })();
+})();
+</script>
+
+</body></html>
